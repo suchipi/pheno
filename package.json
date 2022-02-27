@@ -1,0 +1,32 @@
+{
+  "name": "pheno",
+  "version": "0.1.0",
+  "description": "Simple, lightweight at-runtime type checking functions, with full TypeScript support",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "type",
+    "check",
+    "runtime",
+    "validate",
+    "test",
+    "assert",
+    "typescript",
+    "is",
+    "asserts"
+  ],
+  "author": "Lily Scott <me@suchipi.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "terser": "^5.11.0",
+    "typescript": "^4.5.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/suchipi/pheno.git"
+  }
+}
