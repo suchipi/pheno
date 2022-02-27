@@ -1,4 +1,4 @@
 export * from "./api-functions";
 export * from "./basic-types";
 export * from "./type-constructors";
-export type { TypeValidator } from "./type-validator";
+export type { TypeValidator, ExtractTypeFromValidator } from "./type-validator";
