@@ -116,7 +116,7 @@ export const unknownMap: TypeValidator<Map<unknown, unknown>> = (
 export const map = unknownMap;
 
 export const anySet: TypeValidator<Set<any>> = (target): target is Set<any> =>
-  target instanceof Map ||
+  target instanceof Set ||
   (anyObject(target) &&
     anyFunction(target.constructor) &&
     target.constructor.name === "Set" &&
