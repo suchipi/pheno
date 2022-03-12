@@ -30,6 +30,8 @@ export const string: TypeValidator<string> = (target): target is string =>
 export const null_: TypeValidator<null> = (target): target is null =>
   target === null;
 
+Object.defineProperty(null_, "name", { value: "null" });
+
 export const undefined_: TypeValidator<undefined> = (
   target
 ): target is undefined => typeof target === "undefined";
@@ -51,8 +53,12 @@ export const number: TypeValidator<number> = (target): target is number =>
 export const NaN_: TypeValidator<number> = (target): target is number =>
   Number.isNaN(target);
 
+Object.defineProperty(NaN_, "name", { value: "NaN" });
+
 export const Infinity_: TypeValidator<number> = (target): target is number =>
   target === Infinity;
+
+Object.defineProperty(Infinity_, "name", { value: "Infinity" });
 
 export const NegativeInfinity: TypeValidator<number> = (
   target
@@ -75,8 +81,12 @@ export const unknownFunction: TypeValidator<
 export const false_: TypeValidator<false> = (target): target is false =>
   target === false;
 
+Object.defineProperty(false_, "name", { value: "false" });
+
 export const true_: TypeValidator<true> = (target): target is true =>
   target === true;
+
+Object.defineProperty(true_, "name", { value: "true" });
 
 export const falsy: TypeValidator<false | null | undefined | "" | 0> = (
   target
@@ -96,8 +106,12 @@ export const Error_: TypeValidator<Error> = (target): target is Error =>
   string(target.message) &&
   string(target.stack);
 
+Object.defineProperty(Error_, "name", { value: "Error" });
+
 export const Symbol_: TypeValidator<symbol> = (target): target is symbol =>
   typeof target === "symbol";
+
+Object.defineProperty(Symbol_, "name", { value: "Symbol" });
 
 export const anyMap: TypeValidator<Map<any, any>> = (
   target

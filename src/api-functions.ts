@@ -1,14 +1,83 @@
 import type { TypeValidator } from "./type-validator";
 
+function tryStringify(value: any) {
+  try {
+    return JSON.stringify(value, replacer);
+  } catch (err) {
+    return {
+      [`${String(value)} that failed to serialize due to error`]: String(err),
+    };
+  }
+}
+
+function replacer(_key: string, value: any) {
+  if (value === null) return value;
+  if (Array.isArray(value)) return value;
+
+  switch (typeof value) {
+    case "boolean":
+    case "string":
+    case "number": {
+      return value;
+    }
+
+    case "undefined": {
+      return "<undefined>";
+    }
+
+    case "function": {
+      return `<Function${value.name ? " " + value.name : ""}>`;
+    }
+
+    case "bigint": {
+      return `<BigInt ${value.toString()}>`;
+    }
+
+    case "symbol": {
+      return `<Symbol${value.description ? " " + value.description : ""}>`;
+    }
+  }
+
+  const tag =
+    typeof value.constructor === "function"
+      ? value.constructor.name || "anonymous constructor"
+      : "Object";
+
+  if (tag === "Object") {
+    return value;
+  }
+
+  if (tag === "Map") {
+    return {
+      [`<${tag} of size ${value.size}>`]: tryStringify(
+        Array.from(value.entries())
+      ),
+    };
+  } else if (tag === "Set") {
+    return {
+      [`<${tag} of size ${value.size}>`]: tryStringify(
+        Array.from(value.values())
+      ),
+    };
+  } else {
+    return `<${tag}>`;
+  }
+}
+
 export function assertType<T>(
   target: any,
   type: TypeValidator<T>,
-  messageMaker: (target: any) => string = (target: any) =>
-    `Value was not of the expected type: ${String(target)}`
+  messageMaker: (target: any, expectedType: TypeValidator<any>) => string = (
+    target: any,
+    expectedType: TypeValidator<any>
+  ) =>
+    `Expected value of type ${
+      expectedType.name || "<anonymous>"
+    }, but received ${tryStringify(target)}`
 ): asserts target is T {
   const isOfType = type(target);
   if (!isOfType) {
-    throw new Error(messageMaker(target));
+    throw new Error(messageMaker(target, type));
   }
 }
 
