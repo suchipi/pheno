@@ -4,8 +4,12 @@
   "description": "Simple, lightweight at-runtime type checking functions, with full TypeScript support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "browser": "dist/bundle.min.js",
   "scripts": {
-    "build": "tsc",
+    "build:ts": "tsc",
+    "build:kame": "kame bundle --output ./dist/bundle.js",
+    "build:minify": "terser ./dist/bundle.js -m eval=true -c > ./dist/bundle.min.js",
+    "build": "rm -rf dist && npm run build:ts && npm run build:kame && npm run build:minify",
     "test": "vitest"
   },
   "keywords": [
@@ -30,5 +34,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/suchipi/pheno.git"
+  },
+  "dependencies": {
+    "kame": "^0.8.3"
   }
 }
