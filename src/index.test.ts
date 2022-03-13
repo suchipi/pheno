@@ -129,6 +129,14 @@ test("assertType value formatting", () => {
   }).toThrowErrorMatchingInlineSnapshot(
     '"Expected value of type string, but received \\"<Function>\\""'
   );
+
+  expect(() => {
+    const obj = {};
+    // @ts-ignore
+    obj.obj = obj;
+
+    t.assertType(obj, t.string);
+  }).toThrowErrorMatchingInlineSnapshot('"Expected value of type string, but received [object Object]"');
 });
 
 test("basic types", () => {

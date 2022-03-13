@@ -1,119 +1,142 @@
 import type { TypeValidator } from "./type-validator";
+import { setName } from "./set-name";
 
 export const any: TypeValidator<any> = (_value): _value is any => true;
-export const unknown: TypeValidator<unknown> = any;
+setName(any, "any");
+
+export const unknown: TypeValidator<unknown> = (_value): _value is unknown =>
+  true;
+setName(any, "unknown");
 
 export const anyObject: TypeValidator<{
   [key: string | number | symbol]: any;
-}> = (target): target is { [key: string | number | symbol]: any } =>
+}> = (target: any): target is any =>
   typeof target === "object" && target != null;
+setName(anyObject, "anyObject");
 
-export const unknownObject: TypeValidator<{}> = anyObject;
+export const unknownObject: TypeValidator<{}> = (target: any): target is any =>
+  anyObject(target);
+setName(unknownObject, "unknownObject");
 
-export const object = unknownObject;
+export const object: TypeValidator<{}> = (target: any): target is any =>
+  anyObject(target);
+setName(object, "object");
 
-export const arrayOfAny: TypeValidator<Array<any>> = (
+export const arrayOfAny: TypeValidator<Array<any>> = (target): target is any =>
+  Array.isArray(target);
+setName(arrayOfAny, "arrayOfAny");
+
+export const arrayOfUnknown: TypeValidator<Array<unknown>> = (
   target
-): target is Array<any> => Array.isArray(target);
+): target is any => arrayOfAny(target);
+setName(arrayOfUnknown, "arrayOfUnknown");
 
-export const arrayOfUnknown: TypeValidator<Array<unknown>> = arrayOfAny;
+export const array: TypeValidator<Array<unknown>> = (target): target is any =>
+  arrayOfAny(target);
+setName(array, "array");
 
-export const array = arrayOfUnknown;
-export const anyArray = arrayOfAny;
+export const anyArray: TypeValidator<Array<any>> = (target): target is any =>
+  arrayOfAny(target);
+setName(anyArray, "anyArray");
 
 export const boolean: TypeValidator<boolean> = (target): target is boolean =>
   typeof target === "boolean";
+setName(boolean, "boolean");
 
 export const string: TypeValidator<string> = (target): target is string =>
   typeof target === "string";
+setName(string, "string");
 
 export const null_: TypeValidator<null> = (target): target is null =>
   target === null;
-
-Object.defineProperty(null_, "name", { value: "null" });
+setName(null_, "null");
 
 export const undefined_: TypeValidator<undefined> = (
   target
 ): target is undefined => typeof target === "undefined";
-
-Object.defineProperty(undefined_, "name", { value: "undefined" });
+setName(undefined_, "undefined");
 
 export const nullish: TypeValidator<null | undefined> = (
   target
 ): target is null | undefined => target == null;
+setName(nullish, "nullish");
 
 export const numberIncludingNanAndInfinities: TypeValidator<number> = (
   target
 ): target is number => typeof target === "number";
+setName(numberIncludingNanAndInfinities, "numberIncludingNanAndInfinities");
 
 export const number: TypeValidator<number> = (target): target is number =>
   typeof target === "number" &&
   !Number.isNaN(target) &&
   !Infinity_(target) &&
   !NegativeInfinity(target);
+setName(number, "number");
 
 export const NaN_: TypeValidator<number> = (target): target is number =>
   Number.isNaN(target);
-
-Object.defineProperty(NaN_, "name", { value: "NaN" });
+setName(NaN_, "NaN");
 
 export const Infinity_: TypeValidator<number> = (target): target is number =>
   target === Infinity;
-
-Object.defineProperty(Infinity_, "name", { value: "Infinity" });
+setName(Infinity_, "Infinity");
 
 export const NegativeInfinity: TypeValidator<number> = (
   target
 ): target is number => target === -Infinity;
+setName(NegativeInfinity, "NegativeInfinity");
 
 export const integer: TypeValidator<number> = (target): target is number =>
   number(target) && target % 1 === 0;
+setName(integer, "integer");
 
 export const never: TypeValidator<never> = (_target): _target is never => false;
+setName(never, "never");
 
 export const anyFunction: TypeValidator<(...args: any) => any> = (
   target
 ): target is (...args: any) => any => typeof target === "function";
+setName(anyFunction, "anyFunction");
 
 export const unknownFunction: TypeValidator<
   (...args: Array<unknown>) => unknown
 > = (target): target is (...args: Array<unknown>) => unknown =>
   anyFunction(target);
+setName(unknownFunction, "unknownFunction");
 
 export const false_: TypeValidator<false> = (target): target is false =>
   target === false;
-
-Object.defineProperty(false_, "name", { value: "false" });
+setName(false_, "false");
 
 export const true_: TypeValidator<true> = (target): target is true =>
   target === true;
-
-Object.defineProperty(true_, "name", { value: "true" });
+setName(true_, "true");
 
 export const falsy: TypeValidator<false | null | undefined | "" | 0> = (
   target
 ): target is false | null | undefined | "" | 0 => !Boolean(target);
+setName(falsy, "falsy");
 
 export const truthy = <T>(
   target: T | false | null | undefined | "" | 0
 ): target is T => Boolean(target);
+setName(truthy, "truthy");
 
 export const nonNullOrUndefined = <T>(
   target: T | null | undefined
 ): target is T => target != null;
+setName(nonNullOrUndefined, "nonNullOrUndefined");
 
 export const Error_: TypeValidator<Error> = (target): target is Error =>
   anyObject(target) &&
   string(target.name) &&
   string(target.message) &&
   string(target.stack);
-
-Object.defineProperty(Error_, "name", { value: "Error" });
+setName(Error_, "Error");
 
 export const Symbol_: TypeValidator<symbol> = (target): target is symbol =>
   typeof target === "symbol";
-
-Object.defineProperty(Symbol_, "name", { value: "Symbol" });
+setName(Symbol_, "Symbol");
 
 export const anyMap: TypeValidator<Map<any, any>> = (
   target
@@ -124,12 +147,17 @@ export const anyMap: TypeValidator<Map<any, any>> = (
     target.constructor.name === "Map" &&
     anyFunction(target.entries) &&
     number(target.size));
+setName(anyMap, "anyMap");
 
 export const unknownMap: TypeValidator<Map<unknown, unknown>> = (
   target
 ): target is Map<unknown, unknown> => anyMap(target);
+setName(unknownMap, "unknownMap");
 
-export const map = unknownMap;
+export const map: TypeValidator<Map<unknown, unknown>> = (
+  target
+): target is Map<unknown, unknown> => anyMap(target);
+setName(map, "map");
 
 export const anySet: TypeValidator<Set<any>> = (target): target is Set<any> =>
   target instanceof Set ||
@@ -138,9 +166,14 @@ export const anySet: TypeValidator<Set<any>> = (target): target is Set<any> =>
     target.constructor.name === "Set" &&
     anyFunction(target.entries) &&
     number(target.size));
+setName(anySet, "anySet");
 
 export const unknownSet: TypeValidator<Set<unknown>> = (
   target
 ): target is Set<unknown> => anySet(target);
+setName(unknownSet, "unknownSet");
 
-export const set = unknownSet;
+export const set: TypeValidator<Set<unknown>> = (
+  target
+): target is Set<unknown> => anySet(target);
+setName(set, "set");

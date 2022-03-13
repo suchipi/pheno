@@ -1,5 +1,6 @@
 import type { TypeValidator } from "./type-validator";
 import * as basicTypes from "./basic-types";
+import { setName } from "./set-name";
 
 function objectStr(obj: { [key: string | number | symbol]: string }) {
   return `{ ${Object.entries(obj)
@@ -12,25 +13,19 @@ export function arrayOf<T>(
 ): TypeValidator<Array<T>> {
   const ret = (target): target is Array<T> =>
     basicTypes.arrayOfAny(target) && target.every(typeValidator);
-  Object.defineProperty(ret, "name", {
-    value: `arrayOf(${typeValidator.name})`,
-  });
+  setName(ret, `arrayOf(${typeValidator.name})`);
   return ret;
 }
 
 export function exactString<T extends string>(str: T): TypeValidator<T> {
   const ret = (target): target is T => target === str;
-  Object.defineProperty(ret, "name", {
-    value: `exactString(${JSON.stringify(str)})`,
-  });
+  setName(ret, `exactString(${JSON.stringify(str)})`);
   return ret;
 }
 
 export function exactNumber<T extends number>(num: T): TypeValidator<T> {
   const ret = (target): target is T => target === num;
-  Object.defineProperty(ret, "name", {
-    value: `exactNumber(${num})`,
-  });
+  setName(ret, `exactNumber(${num})`);
   return ret;
 }
 
@@ -41,9 +36,7 @@ export function hasClassName<Name extends string>(
     basicTypes.nonNullOrUndefined(target) &&
     typeof target.constructor === "function" &&
     target.constructor.name === name;
-  Object.defineProperty(ret, "name", {
-    value: `hasClassName(${JSON.stringify(name)})`,
-  });
+  setName(ret, `hasClassName(${JSON.stringify(name)})`);
   return ret;
 }
 
@@ -51,9 +44,7 @@ export function instanceOf<Klass extends Function & { prototype: any }>(
   klass: Klass
 ): TypeValidator<Klass["prototype"]> {
   const ret = (target): target is Klass => target instanceof klass;
-  Object.defineProperty(ret, "name", {
-    value: `instanceOf(${JSON.stringify(klass.name)})`,
-  });
+  setName(ret, `instanceOf(${JSON.stringify(klass.name)})`);
   return ret;
 }
 
@@ -222,9 +213,7 @@ export const intersection: IntersectionFn = (
   ...args: Array<TypeValidator<any>>
 ) => {
   const ret = (target: any): target is any => args.every((arg) => arg(target));
-  Object.defineProperty(ret, "name", {
-    value: `intersection(${args.map((arg) => arg.name).join(", ")})`,
-  });
+  setName(ret, `intersection(${args.map((arg) => arg.name).join(", ")})`);
   return ret;
 };
 
@@ -393,9 +382,7 @@ export interface UnionFn {
 
 export const union: UnionFn = (...args: Array<TypeValidator<any>>) => {
   const ret = (target: any): target is any => args.some((arg) => arg(target));
-  Object.defineProperty(ret, "name", {
-    value: `union(${args.map((arg) => arg.name).join(", ")})`,
-  });
+  setName(ret, `union(${args.map((arg) => arg.name).join(", ")})`);
   return ret;
 };
 
@@ -410,9 +397,7 @@ export function mapOf<K, V>(
     Array.from(target.keys()).every(keyType) &&
     Array.from(target.values()).every(valueType);
 
-  Object.defineProperty(ret, "name", {
-    value: `mapOf(${keyType.name}, ${valueType.name})`,
-  });
+  setName(ret, `mapOf(${keyType.name}, ${valueType.name})`);
 
   return ret;
 }
@@ -421,9 +406,7 @@ export function setOf<T>(itemType: TypeValidator<T>): TypeValidator<Set<T>> {
   const ret = (target): target is Set<T> =>
     basicTypes.anySet(target) && Array.from(target.values()).every(itemType);
 
-  Object.defineProperty(ret, "name", {
-    value: `setOf(${itemType.name})`,
-  });
+  setName(ret, `setOf(${itemType.name})`);
 
   return ret;
 }
@@ -432,11 +415,7 @@ export function maybe<T>(
   itemType: TypeValidator<T>
 ): TypeValidator<T | undefined | null> {
   const ret = union(itemType, basicTypes.undefined_, basicTypes.null_);
-
-  Object.defineProperty(ret, "name", {
-    value: `maybe(${itemType.name})`,
-  });
-
+  setName(ret, `maybe(${itemType.name})`);
   return ret;
 }
 
@@ -460,11 +439,12 @@ export function objectWithProperties<
     );
   };
 
-  Object.defineProperty(ret, "name", {
-    value: `objectWithProperties(${objectStr(
+  setName(
+    ret,
+    `objectWithProperties(${objectStr(
       Object.fromEntries(propEntries.map(([key, value]) => [key, value.name]))
-    )})`,
-  });
+    )})`
+  );
 
   return ret;
 }
@@ -496,11 +476,12 @@ export function objectWithOnlyTheseProperties<
     );
   };
 
-  Object.defineProperty(ret, "name", {
-    value: `objectWithOnlyTheseProperties(${objectStr(
+  setName(
+    ret,
+    `objectWithOnlyTheseProperties(${objectStr(
       Object.fromEntries(propEntries.map(([key, value]) => [key, value.name]))
-    )})`,
-  });
+    )})`
+  );
 
   return ret;
 }
@@ -517,11 +498,7 @@ export function mappingObjectOf<
     Object.entries(target).every(
       ([key, value]) => keyType(key) && valueType(value)
     );
-
-  Object.defineProperty(ret, "name", {
-    value: `mappingObjectOf(${keyType.name}, ${valueType.name})`,
-  });
-
+  setName(ret, `mappingObjectOf(${keyType.name}, ${valueType.name})`);
   return ret;
 }
 
@@ -553,40 +530,34 @@ export function partialObjectWithProperties<
     );
   };
 
-  Object.defineProperty(ret, "name", {
-    value: `partialObjectWithProperties(${objectStr(
+  setName(
+    ret,
+    `partialObjectWithProperties(${objectStr(
       Object.fromEntries(
         propEntries.map(([key, value]) => [
           key,
           `union(${value.name}, null, undefined)`,
         ])
       )
-    )})`,
-  });
+    )})`
+  );
 
   return ret;
 }
 
 export function stringMatching(regexp: RegExp): TypeValidator<string> {
   const ret = (target): target is string => {
+    // We make a new regexp each time so that state from one match doesn't affect another
     const newRegExp = new RegExp(regexp.source, regexp.flags);
     return typeof target === "string" && newRegExp.test(target);
   };
-
-  Object.defineProperty(ret, "name", {
-    value: `stringMatching(${regexp})`,
-  });
-
+  setName(ret, `stringMatching(${regexp})`);
   return ret;
 }
 
 export function symbolFor(key: string): TypeValidator<symbol> {
   const ret = (target): target is symbol => target === Symbol.for(key);
-
-  Object.defineProperty(ret, "name", {
-    value: `symbolFor(${JSON.stringify(key)})`,
-  });
-
+  setName(ret, `symbolFor(${JSON.stringify(key)})`);
   return ret;
 }
 
@@ -767,9 +738,7 @@ export const tuple: TupleFn = (...args: Array<TypeValidator<any>>) => {
       return args[index](item);
     });
 
-  Object.defineProperty(ret, "name", {
-    value: `tuple(${args.map((arg) => arg.name).join(", ")})`,
-  });
+  setName(ret, `tuple(${args.map((arg) => arg.name).join(", ")})`);
 
   return ret;
 };
