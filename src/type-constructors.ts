@@ -38,7 +38,7 @@ export function hasClassName<Name extends string>(
   name: Name
 ): TypeValidator<{ constructor: Function & { name: Name } }> {
   const ret = (target): target is { constructor: Function & { name: Name } } =>
-    basicTypes.anyObject(target) &&
+    basicTypes.nonNullOrUndefined(target) &&
     typeof target.constructor === "function" &&
     target.constructor.name === name;
   Object.defineProperty(ret, "name", {
@@ -419,7 +419,7 @@ export function mapOf<K, V>(
 
 export function setOf<T>(itemType: TypeValidator<T>): TypeValidator<Set<T>> {
   const ret = (target): target is Set<T> =>
-    basicTypes.anySet(target) && Array.from(target.entries()).every(itemType);
+    basicTypes.anySet(target) && Array.from(target.values()).every(itemType);
 
   Object.defineProperty(ret, "name", {
     value: `setOf(${itemType.name})`,
@@ -477,7 +477,7 @@ export function objectWithOnlyTheseProperties<
   [key in keyof T]: T[key] extends TypeValidator<infer U> ? U : never;
 }> {
   const propEntries = Object.entries(properties);
-  const propEntriesSet = new Set(propEntries);
+  const propKeysSet = new Set(Object.keys(properties));
 
   const ret = (
     target
@@ -492,7 +492,7 @@ export function objectWithOnlyTheseProperties<
 
     return (
       targetEntries.length === propEntries.length &&
-      targetEntries.every((key) => propEntriesSet.has(key))
+      targetEntries.every(([key, _value]) => propKeysSet.has(key))
     );
   };
 
@@ -558,7 +558,7 @@ export function partialObjectWithProperties<
       Object.fromEntries(
         propEntries.map(([key, value]) => [
           key,
-          `union(${value.name}, null_, undefined_)`,
+          `union(${value.name}, null, undefined)`,
         ])
       )
     )})`,
@@ -568,8 +568,10 @@ export function partialObjectWithProperties<
 }
 
 export function stringMatching(regexp: RegExp): TypeValidator<string> {
-  const ret = (target): target is string =>
-    typeof target === "string" && regexp.test(target);
+  const ret = (target): target is string => {
+    const newRegExp = new RegExp(regexp.source, regexp.flags);
+    return typeof target === "string" && newRegExp.test(target);
+  };
 
   Object.defineProperty(ret, "name", {
     value: `stringMatching(${regexp})`,

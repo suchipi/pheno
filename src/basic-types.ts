@@ -36,6 +36,8 @@ export const undefined_: TypeValidator<undefined> = (
   target
 ): target is undefined => typeof target === "undefined";
 
+Object.defineProperty(undefined_, "name", { value: "undefined" });
+
 export const nullish: TypeValidator<null | undefined> = (
   target
 ): target is null | undefined => target == null;
