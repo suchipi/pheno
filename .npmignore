@@ -1,2 +1,4 @@
 src
 .prettierrc
+.node-version
+.npm-version
