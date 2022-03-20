@@ -7,7 +7,7 @@
   "browser": "dist/bundle.min.js",
   "scripts": {
     "build:ts": "tsc",
-    "build:kame": "kame bundle --output ./dist/bundle.js",
+    "build:kame": "kame bundle --output ./dist/bundle.js --loader ./kame-loader.js",
     "build:minify": "terser ./dist/bundle.js -m eval=true -c > ./dist/bundle.min.js",
     "build": "rm -rf dist && npm run build:ts && npm run build:kame && npm run build:minify",
     "test": "vitest"
@@ -30,7 +30,7 @@
     "terser": "^5.11.0",
     "typescript": "^4.5.5",
     "vitest": "^0.6.0",
-    "kame": "^0.8.3"
+    "kame": "^0.9.0"
   },
   "repository": {
     "type": "git",

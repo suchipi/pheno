@@ -2,3 +2,4 @@ src
 .prettierrc
 .node-version
 .npm-version
+kame-loader.js

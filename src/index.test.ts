@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import * as t from ".";
+import * as t from "../dist/bundle.min";
 
 test("basic test", () => {
   expect(t.isOfType("hi", t.string)).toBe(true);
@@ -136,7 +136,9 @@ test("assertType value formatting", () => {
     obj.obj = obj;
 
     t.assertType(obj, t.string);
-  }).toThrowErrorMatchingInlineSnapshot('"Expected value of type string, but received [object Object]"');
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type string, but received [object Object]"'
+  );
 });
 
 test("basic types", () => {
