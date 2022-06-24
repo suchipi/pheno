@@ -414,7 +414,7 @@ export function setOf<T>(itemType: TypeValidator<T>): TypeValidator<Set<T>> {
 export function maybe<T>(
   itemType: TypeValidator<T>
 ): TypeValidator<T | undefined | null> {
-  const ret = union(itemType, basicTypes.undefined_, basicTypes.null_);
+  const ret = union(itemType, basicTypes.undefined, basicTypes.null);
   setName(ret, `maybe(${itemType.name})`);
   return ret;
 }

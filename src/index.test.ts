@@ -22,7 +22,7 @@ test("basic test", () => {
     t.isOfType(
       43,
       t.objectWithProperties({
-        potato: t.true_,
+        potato: t.true,
       })
     )
   ).toBe(false);
@@ -31,7 +31,7 @@ test("basic test", () => {
     t.assertType(
       43,
       t.objectWithProperties({
-        potato: t.true_,
+        potato: t.true,
       })
     );
   }).toThrowErrorMatchingInlineSnapshot(
@@ -182,15 +182,15 @@ test("basic types", () => {
   expect(t.isOfType(354267, t.string)).toBe(false);
   expect(t.isOfType("hi", t.string)).toBe(true);
 
-  expect(t.isOfType(354267, t.null_)).toBe(false);
-  expect(t.isOfType(undefined, t.null_)).toBe(false);
-  expect(t.isOfType(null, t.null_)).toBe(true);
-  expect(t.null_.name).toBe("null");
+  expect(t.isOfType(354267, t.null)).toBe(false);
+  expect(t.isOfType(undefined, t.null)).toBe(false);
+  expect(t.isOfType(null, t.null)).toBe(true);
+  expect(t.null.name).toBe("null");
 
-  expect(t.isOfType(354267, t.undefined_)).toBe(false);
-  expect(t.isOfType(null, t.undefined_)).toBe(false);
-  expect(t.isOfType(undefined, t.undefined_)).toBe(true);
-  expect(t.undefined_.name).toBe("undefined");
+  expect(t.isOfType(354267, t.undefined)).toBe(false);
+  expect(t.isOfType(null, t.undefined)).toBe(false);
+  expect(t.isOfType(undefined, t.undefined)).toBe(true);
+  expect(t.undefined.name).toBe("undefined");
 
   expect(t.isOfType(354267, t.nullish)).toBe(false);
   expect(t.isOfType(false, t.nullish)).toBe(false);
@@ -209,19 +209,19 @@ test("basic types", () => {
   expect(t.isOfType(Infinity, t.number)).toBe(false);
   expect(t.isOfType(-Infinity, t.number)).toBe(false);
 
-  expect(t.isOfType("hi", t.NaN_)).toBe(false);
-  expect(t.isOfType(327489, t.NaN_)).toBe(false);
-  expect(t.isOfType(NaN, t.NaN_)).toBe(true);
+  expect(t.isOfType("hi", t.NaN)).toBe(false);
+  expect(t.isOfType(327489, t.NaN)).toBe(false);
+  expect(t.isOfType(NaN, t.NaN)).toBe(true);
   // @ts-ignore object is possibly undefined
-  expect(t.isOfType(undefined - 5, t.NaN_)).toBe(true);
-  expect(t.NaN_.name).toBe("NaN");
+  expect(t.isOfType(undefined - 5, t.NaN)).toBe(true);
+  expect(t.NaN.name).toBe("NaN");
 
-  expect(t.isOfType("hi", t.Infinity_)).toBe(false);
-  expect(t.isOfType(327489, t.Infinity_)).toBe(false);
-  expect(t.isOfType(NaN, t.Infinity_)).toBe(false);
-  expect(t.isOfType(Infinity, t.Infinity_)).toBe(true);
-  expect(t.isOfType(-Infinity, t.Infinity_)).toBe(false);
-  expect(t.Infinity_.name).toBe("Infinity");
+  expect(t.isOfType("hi", t.Infinity)).toBe(false);
+  expect(t.isOfType(327489, t.Infinity)).toBe(false);
+  expect(t.isOfType(NaN, t.Infinity)).toBe(false);
+  expect(t.isOfType(Infinity, t.Infinity)).toBe(true);
+  expect(t.isOfType(-Infinity, t.Infinity)).toBe(false);
+  expect(t.Infinity.name).toBe("Infinity");
 
   expect(t.isOfType("hi", t.NegativeInfinity)).toBe(false);
   expect(t.isOfType(327489, t.NegativeInfinity)).toBe(false);
@@ -245,18 +245,18 @@ test("basic types", () => {
   expect(t.isOfType(() => {}, t.unknownFunction)).toBe(true);
   expect(t.isOfType(function blah() {}, t.unknownFunction)).toBe(true);
 
-  expect(t.isOfType("hi", t.false_)).toBe(false);
-  expect(t.isOfType(0, t.false_)).toBe(false);
-  expect(t.isOfType("", t.false_)).toBe(false);
-  expect(t.isOfType(true, t.false_)).toBe(false);
-  expect(t.isOfType(false, t.false_)).toBe(true);
-  expect(t.false_.name).toBe("false");
+  expect(t.isOfType("hi", t.false)).toBe(false);
+  expect(t.isOfType(0, t.false)).toBe(false);
+  expect(t.isOfType("", t.false)).toBe(false);
+  expect(t.isOfType(true, t.false)).toBe(false);
+  expect(t.isOfType(false, t.false)).toBe(true);
+  expect(t.false.name).toBe("false");
 
-  expect(t.isOfType("hi", t.true_)).toBe(false);
-  expect(t.isOfType(1, t.true_)).toBe(false);
-  expect(t.isOfType(false, t.true_)).toBe(false);
-  expect(t.isOfType(true, t.true_)).toBe(true);
-  expect(t.true_.name).toBe("true");
+  expect(t.isOfType("hi", t.true)).toBe(false);
+  expect(t.isOfType(1, t.true)).toBe(false);
+  expect(t.isOfType(false, t.true)).toBe(false);
+  expect(t.isOfType(true, t.true)).toBe(true);
+  expect(t.true.name).toBe("true");
 
   expect(t.isOfType("hi", t.falsy)).toBe(false);
   expect(t.isOfType(1, t.falsy)).toBe(false);
@@ -282,14 +282,14 @@ test("basic types", () => {
   expect(t.isOfType(null, t.nonNullOrUndefined)).toBe(false);
   expect(t.isOfType(undefined, t.nonNullOrUndefined)).toBe(false);
 
-  expect(t.isOfType("hi", t.Error_)).toBe(false);
-  expect(t.isOfType(new Error("uh oh"), t.Error_)).toBe(true);
-  expect(t.Error_.name).toBe("Error");
+  expect(t.isOfType("hi", t.Error)).toBe(false);
+  expect(t.isOfType(new Error("uh oh"), t.Error)).toBe(true);
+  expect(t.Error.name).toBe("Error");
 
-  expect(t.isOfType("hi", t.Symbol_)).toBe(false);
-  expect(t.isOfType(Symbol("hi"), t.Symbol_)).toBe(true);
-  expect(t.isOfType(Symbol(), t.Symbol_)).toBe(true);
-  expect(t.Symbol_.name).toBe("Symbol");
+  expect(t.isOfType("hi", t.Symbol)).toBe(false);
+  expect(t.isOfType(Symbol("hi"), t.Symbol)).toBe(true);
+  expect(t.isOfType(Symbol(), t.Symbol)).toBe(true);
+  expect(t.Symbol.name).toBe("Symbol");
 
   expect(t.isOfType("hi", t.anyMap)).toBe(false);
   expect(t.isOfType(new Map(), t.anyMap)).toBe(true);
