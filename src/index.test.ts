@@ -649,3 +649,23 @@ test("type constructors", () => {
     expect(type.name).toMatchInlineSnapshot('"tuple(number, string)"');
   }
 });
+
+test("exported categories", () => {
+  expect(t.$ApiFunctions).not.toBeUndefined();
+
+  for (const key in t.$ApiFunctions) {
+    expect(t[key]).not.toBeUndefined();
+  }
+
+  expect(t.$BasicTypes).not.toBeUndefined();
+
+  for (const key in t.$BasicTypes) {
+    expect(t[key]).not.toBeUndefined();
+  }
+
+  expect(t.$TypeConstructors).not.toBeUndefined();
+
+  for (const key in t.$TypeConstructors) {
+    expect(t[key]).not.toBeUndefined();
+  }
+});
