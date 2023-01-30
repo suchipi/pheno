@@ -381,6 +381,13 @@ test("type constructors", () => {
   }
 
   {
+    const type = t.hasToStringTag("Null");
+    expect(t.isOfType(null, type)).toBe(true);
+    expect(t.isOfType({}, type)).toBe(false);
+    expect(type.name).toMatchInlineSnapshot('"hasToStringTag(\\"Null\\")"');
+  }
+
+  {
     class Something {}
     const something = new Something();
 

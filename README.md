@@ -48,6 +48,7 @@ function something(first: unknown, second: unknown) {
 - `false`
 - `falsy`
 - `hasClassName`
+- `hasToStringTag`
 - `Infinity`
 - `instanceOf`
 - `integer`

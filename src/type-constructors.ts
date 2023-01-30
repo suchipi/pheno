@@ -40,6 +40,15 @@ export function hasClassName<Name extends string>(
   return ret;
 }
 
+export function hasToStringTag(name: string): TypeValidator<any> {
+  const expectedResult = `[object ${name}]`;
+  const ret = (target: any): target is any => {
+    return Object.prototype.toString.call(target) === expectedResult;
+  };
+  setName(ret, `hasToStringTag(${JSON.stringify(name)})`);
+  return ret;
+}
+
 export function instanceOf<Klass extends Function & { prototype: any }>(
   klass: Klass
 ): TypeValidator<Klass["prototype"]> {
