@@ -180,6 +180,12 @@ setName(RegExp_, "RegExp");
 
 export { RegExp_ as RegExp };
 
+const Date_: TypeValidator<Date> = (target): target is Date =>
+  target instanceof Date || isTagged(target, "Date");
+setName(Date_, "Date");
+
+export { Date_ as Date };
+
 export const anyMap: TypeValidator<Map<any, any>> = (
   target
 ): target is Map<any, any> =>

@@ -44,6 +44,7 @@ function something(first: unknown, second: unknown) {
 - `asType`
 - `boolean`
 - `Boolean` (alias of `boolean`)
+- `Date`
 - `Error`
 - `exactNumber`
 - `exactString`

@@ -331,6 +331,12 @@ test("basic types", () => {
   expect(t.isOfType(new RegExp("hi"), t.RegExp)).toBe(true);
   expect(t.isOfType(/^\w[0-9]+$/g, t.RegExp)).toBe(true);
 
+  expect(t.isOfType(null, t.Date)).toBe(false);
+  expect(t.isOfType(Date.now(), t.Date)).toBe(false);
+  expect(t.isOfType(3456743959834, t.Date)).toBe(false);
+  expect(t.isOfType(new Date(), t.Date)).toBe(true);
+  expect(t.isOfType(new Date(326324782), t.Date)).toBe(true);
+
   expect(t.isOfType("hi", t.anyMap)).toBe(false);
   expect(t.isOfType(new Map(), t.anyMap)).toBe(true);
   expect(
