@@ -174,6 +174,13 @@ export { Symbol_ as Symbol };
 
 export const symbol = Symbol_;
 
+const RegExp_: TypeValidator<RegExp> = (target): target is RegExp =>
+  target instanceof RegExp ||
+  Object.prototype.toString.call(target) === "[object RegExp]";
+setName(RegExp_, "RegExp");
+
+export { RegExp_ as RegExp };
+
 export const anyMap: TypeValidator<Map<any, any>> = (
   target
 ): target is Map<any, any> =>

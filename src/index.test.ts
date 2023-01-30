@@ -325,6 +325,12 @@ test("basic types", () => {
   expect(t.isOfType(Symbol("hi"), t.symbol)).toBe(true);
   expect(t.isOfType(Symbol(), t.symbol)).toBe(true);
 
+  expect(t.isOfType(null, t.RegExp)).toBe(false);
+  expect(t.isOfType("hi", t.RegExp)).toBe(false);
+  expect(t.isOfType(/abc$/, t.RegExp)).toBe(true);
+  expect(t.isOfType(new RegExp("hi"), t.RegExp)).toBe(true);
+  expect(t.isOfType(/^\w[0-9]+$/g, t.RegExp)).toBe(true);
+
   expect(t.isOfType("hi", t.anyMap)).toBe(false);
   expect(t.isOfType(new Map(), t.anyMap)).toBe(true);
   expect(

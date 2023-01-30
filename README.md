@@ -79,6 +79,7 @@ function something(first: unknown, second: unknown) {
 - `or`
 - `partialObjectWithProperties`
 - `record`
+- `RegExp`
 - `set` (alias of `unknownSet`)
 - `Set` (alias of `unknownSet`)
 - `setOf`
