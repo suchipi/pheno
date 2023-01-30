@@ -259,6 +259,14 @@ test("basic types", () => {
   expect(t.isOfType(6, t.integer)).toBe(true);
   expect(t.isOfType(6.5, t.integer)).toBe(false);
 
+  expect(t.isOfType("hi", t.bigint)).toBe(false);
+  expect(t.isOfType(6, t.bigint)).toBe(false);
+  expect(t.isOfType(6n, t.bigint)).toBe(true);
+
+  expect(t.isOfType("hi", t.BigInt)).toBe(false);
+  expect(t.isOfType(6, t.BigInt)).toBe(false);
+  expect(t.isOfType(6n, t.BigInt)).toBe(true);
+
   expect(t.isOfType("hi", t.never)).toBe(false);
   expect(t.isOfType({}, t.never)).toBe(false);
   expect(t.isOfType(4376859, t.never)).toBe(false);

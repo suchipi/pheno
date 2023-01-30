@@ -42,6 +42,8 @@ function something(first: unknown, second: unknown) {
 - `Array` (alias of `arrayOfUnknown`)
 - `assertType`
 - `asType`
+- `bigint`
+- `BigInt` (alias of `bigint`)
 - `boolean`
 - `Boolean` (alias of `boolean`)
 - `Date`

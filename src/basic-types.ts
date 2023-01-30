@@ -114,6 +114,12 @@ export const integer: TypeValidator<number> = (target): target is number =>
   number(target) && target % 1 === 0;
 setName(integer, "integer");
 
+const bigint_: TypeValidator<bigint> = (target): target is bigint =>
+  typeof target === "bigint";
+setName(bigint_, "bigint");
+
+export { bigint_ as bigint, bigint_ as BigInt };
+
 export const never: TypeValidator<never> = (_target): _target is never => false;
 setName(never, "never");
 
@@ -170,9 +176,7 @@ const Symbol_: TypeValidator<symbol> = (target): target is symbol =>
   typeof target === "symbol";
 setName(Symbol_, "Symbol");
 
-export { Symbol_ as Symbol };
-
-export const symbol = Symbol_;
+export { Symbol_ as Symbol, Symbol_ as symbol };
 
 const RegExp_: TypeValidator<RegExp> = (target): target is RegExp =>
   target instanceof RegExp || isTagged(target, "RegExp");
@@ -207,8 +211,7 @@ export const map: TypeValidator<Map<unknown, unknown>> = (
 ): target is Map<unknown, unknown> => anyMap(target);
 setName(map, "map");
 
-const Map_ = map;
-export { Map_ as Map };
+export { map as Map };
 
 export const anySet: TypeValidator<Set<any>> = (target): target is Set<any> =>
   target instanceof Set ||
@@ -229,8 +232,7 @@ export const set: TypeValidator<Set<unknown>> = (
 ): target is Set<unknown> => anySet(target);
 setName(set, "set");
 
-const Set_ = set;
-export { Set_ as Set };
+export { set as Set };
 
 const ArrayBuffer_: TypeValidator<ArrayBuffer> = (
   target
