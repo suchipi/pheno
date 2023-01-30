@@ -162,6 +162,10 @@ test("basic types", () => {
   expect(t.isOfType(null, t.object)).toBe(false);
   expect(t.isOfType({ one: 1 }, t.object)).toBe(true);
 
+  expect(t.isOfType(354267, t.Object)).toBe(false);
+  expect(t.isOfType(null, t.Object)).toBe(false);
+  expect(t.isOfType({ one: 1 }, t.Object)).toBe(true);
+
   expect(t.isOfType(354267, t.arrayOfAny)).toBe(false);
   expect(t.isOfType([1, "f", null], t.arrayOfAny)).toBe(true);
 
@@ -171,6 +175,9 @@ test("basic types", () => {
   expect(t.isOfType(354267, t.array)).toBe(false);
   expect(t.isOfType([1, "f", null], t.array)).toBe(true);
 
+  expect(t.isOfType(354267, t.Array)).toBe(false);
+  expect(t.isOfType([1, "f", null], t.Array)).toBe(true);
+
   expect(t.isOfType(354267, t.anyArray)).toBe(false);
   expect(t.isOfType([1, "f", null], t.anyArray)).toBe(true);
 
@@ -179,8 +186,16 @@ test("basic types", () => {
   expect(t.isOfType(true, t.boolean)).toBe(true);
   expect(t.isOfType(false, t.boolean)).toBe(true);
 
+  expect(t.isOfType(354267, t.Boolean)).toBe(false);
+  expect(t.isOfType(null, t.Boolean)).toBe(false);
+  expect(t.isOfType(true, t.Boolean)).toBe(true);
+  expect(t.isOfType(false, t.Boolean)).toBe(true);
+
   expect(t.isOfType(354267, t.string)).toBe(false);
   expect(t.isOfType("hi", t.string)).toBe(true);
+
+  expect(t.isOfType(354267, t.String)).toBe(false);
+  expect(t.isOfType("hi", t.String)).toBe(true);
 
   expect(t.isOfType(354267, t.null)).toBe(false);
   expect(t.isOfType(undefined, t.null)).toBe(false);
@@ -197,6 +212,11 @@ test("basic types", () => {
   expect(t.isOfType(null, t.nullish)).toBe(true);
   expect(t.isOfType(undefined, t.nullish)).toBe(true);
 
+  expect(t.isOfType(354267, t.void)).toBe(false);
+  expect(t.isOfType(false, t.void)).toBe(false);
+  expect(t.isOfType(null, t.void)).toBe(true);
+  expect(t.isOfType(undefined, t.void)).toBe(true);
+
   expect(t.isOfType("hi", t.numberIncludingNanAndInfinities)).toBe(false);
   expect(t.isOfType(43875, t.numberIncludingNanAndInfinities)).toBe(true);
   expect(t.isOfType(NaN, t.numberIncludingNanAndInfinities)).toBe(true);
@@ -208,6 +228,12 @@ test("basic types", () => {
   expect(t.isOfType(NaN, t.number)).toBe(false);
   expect(t.isOfType(Infinity, t.number)).toBe(false);
   expect(t.isOfType(-Infinity, t.number)).toBe(false);
+
+  expect(t.isOfType("hi", t.Number)).toBe(false);
+  expect(t.isOfType(43875, t.Number)).toBe(true);
+  expect(t.isOfType(NaN, t.Number)).toBe(false);
+  expect(t.isOfType(Infinity, t.Number)).toBe(false);
+  expect(t.isOfType(-Infinity, t.Number)).toBe(false);
 
   expect(t.isOfType("hi", t.NaN)).toBe(false);
   expect(t.isOfType(327489, t.NaN)).toBe(false);
@@ -244,6 +270,10 @@ test("basic types", () => {
   expect(t.isOfType("hi", t.unknownFunction)).toBe(false);
   expect(t.isOfType(() => {}, t.unknownFunction)).toBe(true);
   expect(t.isOfType(function blah() {}, t.unknownFunction)).toBe(true);
+
+  expect(t.isOfType("hi", t.Function)).toBe(false);
+  expect(t.isOfType(() => {}, t.Function)).toBe(true);
+  expect(t.isOfType(function blah() {}, t.Function)).toBe(true);
 
   expect(t.isOfType("hi", t.false)).toBe(false);
   expect(t.isOfType(0, t.false)).toBe(false);
@@ -291,6 +321,10 @@ test("basic types", () => {
   expect(t.isOfType(Symbol(), t.Symbol)).toBe(true);
   expect(t.Symbol.name).toBe("Symbol");
 
+  expect(t.isOfType("hi", t.symbol)).toBe(false);
+  expect(t.isOfType(Symbol("hi"), t.symbol)).toBe(true);
+  expect(t.isOfType(Symbol(), t.symbol)).toBe(true);
+
   expect(t.isOfType("hi", t.anyMap)).toBe(false);
   expect(t.isOfType(new Map(), t.anyMap)).toBe(true);
   expect(
@@ -327,6 +361,18 @@ test("basic types", () => {
     )
   ).toBe(true);
 
+  expect(t.isOfType("hi", t.Map)).toBe(false);
+  expect(t.isOfType(new Map(), t.Map)).toBe(true);
+  expect(
+    t.isOfType(
+      new Map<any, any>([
+        [1, 2],
+        ["three", "four"],
+      ]),
+      t.Map
+    )
+  ).toBe(true);
+
   expect(t.isOfType("hi", t.anySet)).toBe(false);
   expect(t.isOfType(new Set(), t.anySet)).toBe(true);
   expect(t.isOfType(new Set([1, 2, "three"]), t.anySet)).toBe(true);
@@ -338,6 +384,10 @@ test("basic types", () => {
   expect(t.isOfType("hi", t.set)).toBe(false);
   expect(t.isOfType(new Set(), t.set)).toBe(true);
   expect(t.isOfType(new Set([1, 2, "three"]), t.set)).toBe(true);
+
+  expect(t.isOfType("hi", t.Set)).toBe(false);
+  expect(t.isOfType(new Set(), t.Set)).toBe(true);
+  expect(t.isOfType(new Set([1, 2, "three"]), t.Set)).toBe(true);
 });
 
 test("type constructors", () => {

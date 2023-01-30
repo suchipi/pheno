@@ -35,18 +35,21 @@ function something(first: unknown, second: unknown) {
 - `anyMap`
 - `anyObject`
 - `anySet`
-- `array`
+- `array` (alias of `arrayOfUnknown`)
 - `arrayOf`
 - `arrayOfAny`
 - `arrayOfUnknown`
+- `Array` (alias of `arrayOfUnknown`)
 - `assertType`
 - `asType`
 - `boolean`
+- `Boolean` (alias of `boolean`)
 - `Error`
 - `exactNumber`
 - `exactString`
 - `false`
 - `falsy`
+- `Function` (alias of `unknownFunction`)
 - `hasClassName`
 - `hasToStringTag`
 - `Infinity`
@@ -54,7 +57,8 @@ function something(first: unknown, second: unknown) {
 - `integer`
 - `intersection`
 - `isOfType`
-- `map`
+- `map` (alias of `unknownMap`)
+- `Map` (alias of `unknownMap`)
 - `mapOf`
 - `mappingObjectOf`
 - `maybe`
@@ -64,19 +68,25 @@ function something(first: unknown, second: unknown) {
 - `nonNullOrUndefined`
 - `null`
 - `nullish`
-- `number`
+- `void` (alias of `nullish`)
+- `number` (doesn't include NaN, Infinity, or -Infinity)
+- `Number` (alias of `number`)
 - `numberIncludingNanAndInfinities`
-- `object`
+- `object` (alias of `unknownObject`)
+- `Object` (alias of `unknownObject`)
 - `objectWithOnlyTheseProperties`
 - `objectWithProperties`
 - `or`
 - `partialObjectWithProperties`
 - `record`
-- `set`
+- `set` (alias of `unknownSet`)
+- `Set` (alias of `unknownSet`)
 - `setOf`
 - `string`
+- `String` (alias of `string`)
 - `stringMatching`
 - `Symbol`
+- `symbol` (alias of `Symbol`)
 - `symbolFor`
 - `true`
 - `truthy`

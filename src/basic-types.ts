@@ -22,6 +22,9 @@ export const object: TypeValidator<{}> = (target: any): target is any =>
   anyObject(target);
 setName(object, "object");
 
+const Object_ = object;
+export { Object_ as Object };
+
 export const arrayOfAny: TypeValidator<Array<any>> = (target): target is any =>
   Array.isArray(target);
 setName(arrayOfAny, "arrayOfAny");
@@ -35,6 +38,9 @@ export const array: TypeValidator<Array<unknown>> = (target): target is any =>
   arrayOfAny(target);
 setName(array, "array");
 
+const Array_ = array;
+export { Array_ as Array };
+
 export const anyArray: TypeValidator<Array<any>> = (target): target is any =>
   arrayOfAny(target);
 setName(anyArray, "anyArray");
@@ -43,9 +49,15 @@ export const boolean: TypeValidator<boolean> = (target): target is boolean =>
   typeof target === "boolean";
 setName(boolean, "boolean");
 
+const Boolean_ = boolean;
+export { Boolean_ as Boolean };
+
 export const string: TypeValidator<string> = (target): target is string =>
   typeof target === "string";
 setName(string, "string");
+
+const String_ = string;
+export { String_ as String };
 
 const null_: TypeValidator<null> = (target): target is null => target === null;
 setName(null_, "null");
@@ -63,6 +75,9 @@ export const nullish: TypeValidator<null | undefined> = (
 ): target is null | undefined => target == null;
 setName(nullish, "nullish");
 
+const void_ = nullish;
+export { void_ as void };
+
 export const numberIncludingNanAndInfinities: TypeValidator<number> = (
   target
 ): target is number => typeof target === "number";
@@ -74,6 +89,9 @@ export const number: TypeValidator<number> = (target): target is number =>
   !Infinity_(target) &&
   !NegativeInfinity(target);
 setName(number, "number");
+
+const Number_ = number;
+export { Number_ as Number };
 
 const NaN_: TypeValidator<number> = (target): target is number =>
   Number.isNaN(target);
@@ -109,6 +127,9 @@ export const unknownFunction: TypeValidator<
 > = (target): target is (...args: Array<unknown>) => unknown =>
   anyFunction(target);
 setName(unknownFunction, "unknownFunction");
+
+const Function_ = unknownFunction;
+export { Function_ as Function };
 
 const false_: TypeValidator<false> = (target): target is false =>
   target === false;
@@ -151,6 +172,8 @@ setName(Symbol_, "Symbol");
 
 export { Symbol_ as Symbol };
 
+export const symbol = Symbol_;
+
 export const anyMap: TypeValidator<Map<any, any>> = (
   target
 ): target is Map<any, any> =>
@@ -172,6 +195,9 @@ export const map: TypeValidator<Map<unknown, unknown>> = (
 ): target is Map<unknown, unknown> => anyMap(target);
 setName(map, "map");
 
+const Map_ = map;
+export { Map_ as Map };
+
 export const anySet: TypeValidator<Set<any>> = (target): target is Set<any> =>
   target instanceof Set ||
   (anyObject(target) &&
@@ -190,3 +216,6 @@ export const set: TypeValidator<Set<unknown>> = (
   target
 ): target is Set<unknown> => anySet(target);
 setName(set, "set");
+
+const Set_ = set;
+export { Set_ as Set };
