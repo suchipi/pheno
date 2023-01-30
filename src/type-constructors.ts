@@ -1,6 +1,6 @@
 import type { TypeValidator } from "./type-validator";
 import * as basicTypes from "./basic-types";
-import { setName } from "./set-name";
+import { setName } from "./utils";
 
 function objectStr(obj: { [key: string | number | symbol]: string }) {
   return `{ ${Object.entries(obj)

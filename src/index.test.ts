@@ -396,6 +396,145 @@ test("basic types", () => {
   expect(t.isOfType(new Set([1, 2, "three"]), t.Set)).toBe(true);
 });
 
+test("basic types - typed arrays", () => {
+  expect(t.isOfType(null, t.ArrayBuffer)).toBe(false);
+  expect(t.isOfType([], t.ArrayBuffer)).toBe(false);
+  expect(t.isOfType(new ArrayBuffer(1024), t.ArrayBuffer)).toBe(true);
+
+  expect(t.isOfType(null, t.SharedArrayBuffer)).toBe(false);
+  expect(t.isOfType([], t.SharedArrayBuffer)).toBe(false);
+  expect(t.isOfType(new ArrayBuffer(1024), t.SharedArrayBuffer)).toBe(false);
+  expect(t.isOfType(new SharedArrayBuffer(1024), t.SharedArrayBuffer)).toBe(
+    true
+  );
+
+  expect(t.isOfType(null, t.DataView)).toBe(false);
+  expect(t.isOfType([], t.DataView)).toBe(false);
+  expect(t.isOfType(new DataView(new ArrayBuffer(1024)), t.DataView)).toBe(
+    true
+  );
+
+  expect(t.isOfType(null, t.TypedArray)).toBe(false);
+  expect(t.isOfType([], t.TypedArray)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Uint8Array(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Int16Array(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Uint16Array(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Int32Array(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Uint32Array(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Float32Array(4), t.TypedArray)).toBe(true);
+  expect(t.isOfType(new Float64Array(8), t.TypedArray)).toBe(true);
+
+  expect(t.isOfType(null, t.Int8Array)).toBe(false);
+  expect(t.isOfType([], t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Int8Array)).toBe(true);
+  expect(t.isOfType(new Uint8Array(4), t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Int8Array)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Int8Array)).toBe(false);
+
+  expect(t.isOfType(null, t.Uint8Array)).toBe(false);
+  expect(t.isOfType([], t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Uint8Array)).toBe(true);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Uint8Array)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Uint8Array)).toBe(false);
+
+  expect(t.isOfType(null, t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType([], t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Uint8ClampedArray)).toBe(true);
+  expect(t.isOfType(new Int16Array(4), t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Uint8ClampedArray)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Uint8ClampedArray)).toBe(false);
+
+  expect(t.isOfType(null, t.Int16Array)).toBe(false);
+  expect(t.isOfType([], t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Int16Array)).toBe(true);
+  expect(t.isOfType(new Uint16Array(4), t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Int16Array)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Int16Array)).toBe(false);
+
+  expect(t.isOfType(null, t.Uint16Array)).toBe(false);
+  expect(t.isOfType([], t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Uint16Array)).toBe(true);
+  expect(t.isOfType(new Int32Array(4), t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Uint16Array)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Uint16Array)).toBe(false);
+
+  expect(t.isOfType(null, t.Int32Array)).toBe(false);
+  expect(t.isOfType([], t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Int32Array)).toBe(true);
+  expect(t.isOfType(new Uint32Array(4), t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Int32Array)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Int32Array)).toBe(false);
+
+  expect(t.isOfType(null, t.Uint32Array)).toBe(false);
+  expect(t.isOfType([], t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Uint32Array)).toBe(true);
+  expect(t.isOfType(new Float32Array(4), t.Uint32Array)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Uint32Array)).toBe(false);
+
+  expect(t.isOfType(null, t.Float32Array)).toBe(false);
+  expect(t.isOfType([], t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Float32Array)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Float32Array)).toBe(true);
+  expect(t.isOfType(new Float64Array(8), t.Float32Array)).toBe(false);
+
+  expect(t.isOfType(null, t.Float64Array)).toBe(false);
+  expect(t.isOfType([], t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Int8Array(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Uint8Array(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Uint8ClampedArray(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Int16Array(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Uint16Array(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Int32Array(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Uint32Array(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Float32Array(4), t.Float64Array)).toBe(false);
+  expect(t.isOfType(new Float64Array(8), t.Float64Array)).toBe(true);
+});
+
 test("type constructors", () => {
   {
     const type = t.arrayOf(t.number);

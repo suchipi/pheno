@@ -1,5 +1,5 @@
 import type { TypeValidator } from "./type-validator";
-import { setName } from "./set-name";
+import { setName, isTagged } from "./utils";
 
 export const any: TypeValidator<any> = (_value): _value is any => true;
 setName(any, "any");
@@ -175,8 +175,7 @@ export { Symbol_ as Symbol };
 export const symbol = Symbol_;
 
 const RegExp_: TypeValidator<RegExp> = (target): target is RegExp =>
-  target instanceof RegExp ||
-  Object.prototype.toString.call(target) === "[object RegExp]";
+  target instanceof RegExp || isTagged(target, "RegExp");
 setName(RegExp_, "RegExp");
 
 export { RegExp_ as RegExp };
@@ -226,3 +225,126 @@ setName(set, "set");
 
 const Set_ = set;
 export { Set_ as Set };
+
+const ArrayBuffer_: TypeValidator<ArrayBuffer> = (
+  target
+): target is ArrayBuffer => {
+  return target instanceof ArrayBuffer || isTagged(target, "ArrayBuffer");
+};
+setName(ArrayBuffer_, "ArrayBuffer");
+export { ArrayBuffer_ as ArrayBuffer };
+
+const SharedArrayBuffer_: TypeValidator<SharedArrayBuffer> = (
+  target
+): target is SharedArrayBuffer => {
+  return (
+    target instanceof SharedArrayBuffer || isTagged(target, "SharedArrayBuffer")
+  );
+};
+setName(SharedArrayBuffer_, "SharedArrayBuffer");
+export { SharedArrayBuffer_ as SharedArrayBuffer };
+
+const DataView_: TypeValidator<DataView> = (target): target is DataView => {
+  return target instanceof DataView || isTagged(target, "DataView");
+};
+setName(DataView_, "DataView");
+export { DataView_ as DataView };
+
+const TypedArray_: TypeValidator<
+  | Int8Array
+  | Uint8Array
+  | Uint8ClampedArray
+  | Int16Array
+  | Uint16Array
+  | Int32Array
+  | Uint32Array
+  | Float32Array
+  | Float64Array
+> = (
+  target
+): target is
+  | Int8Array
+  | Uint8Array
+  | Uint8ClampedArray
+  | Int16Array
+  | Uint16Array
+  | Int32Array
+  | Uint32Array
+  | Float32Array
+  | Float64Array => {
+  return ArrayBuffer.isView(target) && !DataView_(target);
+};
+setName(TypedArray_, "TypedArray");
+export { TypedArray_ as TypedArray };
+
+const Int8Array_: TypeValidator<Int8Array> = (target): target is Int8Array => {
+  return target instanceof Int8Array || isTagged(target, "Int8Array");
+};
+setName(Int8Array_, "Int8Array");
+export { Int8Array_ as Int8Array };
+
+const Uint8Array_: TypeValidator<Uint8Array> = (
+  target
+): target is Uint8Array => {
+  return target instanceof Uint8Array || isTagged(target, "Uint8Array");
+};
+setName(Uint8Array_, "Uint8Array");
+export { Uint8Array_ as Uint8Array };
+
+const Uint8ClampedArray_: TypeValidator<Uint8ClampedArray> = (
+  target
+): target is Uint8ClampedArray => {
+  return (
+    target instanceof Uint8ClampedArray || isTagged(target, "Uint8ClampedArray")
+  );
+};
+setName(Uint8ClampedArray_, "Uint8ClampedArray");
+export { Uint8ClampedArray_ as Uint8ClampedArray };
+
+const Int16Array_: TypeValidator<Int16Array> = (
+  target
+): target is Int16Array => {
+  return target instanceof Int16Array || isTagged(target, "Int16Array");
+};
+setName(Int16Array_, "Int16Array");
+export { Int16Array_ as Int16Array };
+
+const Uint16Array_: TypeValidator<Uint16Array> = (
+  target
+): target is Uint16Array => {
+  return target instanceof Uint16Array || isTagged(target, "Uint16Array");
+};
+setName(Uint16Array_, "Uint16Array");
+export { Uint16Array_ as Uint16Array };
+
+const Int32Array_: TypeValidator<Int32Array> = (
+  target
+): target is Int32Array => {
+  return target instanceof Int32Array || isTagged(target, "Int32Array");
+};
+setName(Int32Array_, "Int32Array");
+export { Int32Array_ as Int32Array };
+
+const Uint32Array_: TypeValidator<Uint32Array> = (
+  target
+): target is Uint32Array => {
+  return target instanceof Uint32Array || isTagged(target, "Uint32Array");
+};
+setName(Uint32Array_, "Uint32Array");
+export { Uint32Array_ as Uint32Array };
+
+const Float32Array_: TypeValidator<Float32Array> = (
+  target
+): target is Float32Array => {
+  return target instanceof Float32Array || isTagged(target, "Float32Array");
+};
+setName(Float32Array_, "Float32Array");
+export { Float32Array_ as Float32Array };
+
+const Float64Array_: TypeValidator<Float64Array> = (
+  target
+): target is Float64Array => {
+  return target instanceof Float64Array || isTagged(target, "Float64Array");
+};
+setName(Float64Array_, "Float64Array");
+export { Float64Array_ as Float64Array };
