@@ -137,7 +137,7 @@ test("assertType value formatting", () => {
 
     t.assertType(obj, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received [object Object]"'
+    '"Expected value of type string, but received {\\"[object Object] that failed to serialize due to error\\":\\"TypeError: Converting circular structure to JSON\\\\n    --> starting at object with constructor \'Object\'\\\\n    --- property \'obj\' closes the circle\\"}"'
   );
 });
 
