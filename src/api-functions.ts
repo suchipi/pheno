@@ -19,6 +19,10 @@ function replacer(_key: string, value: any) {
   if (value === null) return value;
   if (Array.isArray(value)) return value;
 
+  if (Number.isNaN(value) || value === Infinity || value === -Infinity) {
+    return `<${String(value)}>`;
+  }
+
   switch (typeof value) {
     case "boolean":
     case "string":
