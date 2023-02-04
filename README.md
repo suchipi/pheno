@@ -40,16 +40,18 @@ function something(first: unknown, second: unknown) {
 - `arrayOfAny`
 - `arrayOfUnknown`
 - `Array` (alias of `arrayOfUnknown`)
-- `assertType`
-- `asType`
+- `assertType` (assert that a value has the provided type, and throw an error message if it doesn't)
+- `asType` (do a TypeScript `as` cast to convert the value into the provided type)
 - `bigint`
 - `BigInt` (alias of `bigint`)
 - `boolean`
 - `Boolean` (alias of `boolean`)
 - `Date`
 - `Error`
+- `exactBigInt`
 - `exactNumber`
 - `exactString`
+- `exactSymbol`
 - `false`
 - `falsy`
 - `Function` (alias of `unknownFunction`)
@@ -59,7 +61,7 @@ function something(first: unknown, second: unknown) {
 - `instanceOf`
 - `integer`
 - `intersection`
-- `isOfType`
+- `isOfType` (return a boolean indicating if a value is of the provided type)
 - `map` (alias of `unknownMap`)
 - `Map` (alias of `unknownMap`)
 - `mapOf`
@@ -88,6 +90,7 @@ function something(first: unknown, second: unknown) {
 - `setOf`
 - `string`
 - `String` (alias of `string`)
+- `stringifyValue` (safe and lightweight value-to-string function, for printing values in error messages)
 - `stringMatching`
 - `Symbol`
 - `symbol` (alias of `Symbol`)

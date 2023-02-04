@@ -576,6 +576,26 @@ test("type constructors", () => {
   }
 
   {
+    const sym = Symbol("potatoes");
+    const sym2 = Symbol("potatoes");
+    const type = t.exactSymbol(sym);
+    expect(t.isOfType("hi", type)).toBe(false);
+    expect(t.isOfType(324325432, type)).toBe(false);
+    expect(t.isOfType(sym, type)).toBe(true);
+    expect(t.isOfType(sym2, type)).toBe(false);
+    expect(type.name).toMatchInlineSnapshot('"exactSymbol(Symbol(potatoes))"');
+  }
+
+  {
+    const type = t.exactBigInt(42n);
+    expect(t.isOfType("hi", type)).toBe(false);
+    expect(t.isOfType(324325432, type)).toBe(false);
+    expect(t.isOfType(42, type)).toBe(false);
+    expect(t.isOfType(42n, type)).toBe(true);
+    expect(type.name).toMatchInlineSnapshot('"exactBigInt(42)"');
+  }
+
+  {
     const type = t.hasClassName("Number");
     expect(t.isOfType("hi", type)).toBe(false);
     expect(t.isOfType(42, type)).toBe(true);

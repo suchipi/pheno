@@ -1,12 +1,17 @@
 import type { TypeValidator } from "./type-validator";
 
-function tryStringify(value: any) {
+/**
+ * Simple value-to-string converter, using JSON.stringify with a custom
+ * replacer and a try-catch around it. Kinda like a lightweight stand-in for
+ * an "inspect" function. assertType's default messageMaker uses this function.
+ */
+export function stringifyValue(value: any) {
   try {
     return JSON.stringify(value, replacer);
   } catch (err) {
-    return {
+    return JSON.stringify({
       [`${String(value)} that failed to serialize due to error`]: String(err),
-    };
+    });
   }
 }
 
@@ -49,13 +54,13 @@ function replacer(_key: string, value: any) {
 
   if (tag === "Map") {
     return {
-      [`<${tag} of size ${value.size}>`]: tryStringify(
+      [`<${tag} of size ${value.size}>`]: stringifyValue(
         Array.from(value.entries())
       ),
     };
   } else if (tag === "Set") {
     return {
-      [`<${tag} of size ${value.size}>`]: tryStringify(
+      [`<${tag} of size ${value.size}>`]: stringifyValue(
         Array.from(value.values())
       ),
     };
@@ -73,7 +78,7 @@ export function assertType<T>(
   ) =>
     `Expected value of type ${
       expectedType.name || "<anonymous>"
-    }, but received ${tryStringify(target)}`
+    }, but received ${stringifyValue(target)}`
 ): asserts target is T {
   const isOfType = type(target);
   if (!isOfType) {

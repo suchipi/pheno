@@ -29,6 +29,18 @@ export function exactNumber<T extends number>(num: T): TypeValidator<T> {
   return ret;
 }
 
+export function exactBigInt<T extends bigint>(num: T): TypeValidator<T> {
+  const ret = (target): target is T => target === num;
+  setName(ret, `exactBigInt(${num})`);
+  return ret;
+}
+
+export function exactSymbol<T extends symbol>(sym: T): TypeValidator<T> {
+  const ret = (target): target is T => target === sym;
+  setName(ret, `exactSymbol(Symbol(${String(sym.description)}))`);
+  return ret;
+}
+
 export function hasClassName<Name extends string>(
   name: Name
 ): TypeValidator<{ constructor: Function & { name: Name } }> {
