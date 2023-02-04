@@ -3,8 +3,8 @@
   "exclude": ["./**/*.test.ts"],
 
   "compilerOptions": {
-    "lib": ["es2019", "dom"],
-    "target": "es2018",
+    "lib": ["es2020", "dom"],
+    "target": "es2020",
     "module": "CommonJS",
     "outDir": "./dist",
     "declaration": true,
