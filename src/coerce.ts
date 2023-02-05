@@ -91,6 +91,12 @@ const coerce: <V extends Coerceable | TypeValidator<any> | unknown>(
     return t.true;
   } else if (t.false(value)) {
     return t.false;
+  } else if (t.NaN(value)) {
+    return t.NaN;
+  } else if (t.Infinity(value)) {
+    return t.Infinity;
+  } else if (t.NegativeInfinity(value)) {
+    return t.NegativeInfinity;
   } else if (t.string(value)) {
     return t.exactString(value);
   } else if (t.number(value)) {

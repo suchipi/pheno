@@ -59,6 +59,9 @@ test("coercion", () => {
     Float32Array,
     Float64Array,
     class MyClass {},
+    NaN,
+    Infinity,
+    -Infinity,
   ].map(coerce);
 
   for (const type of validators) {
@@ -106,15 +109,9 @@ test("coercion", () => {
       "Float32Array",
       "Float64Array",
       "instanceOf(\\"MyClass\\")",
+      "NaN",
+      "Infinity",
+      "NegativeInfinity",
     ]
   `);
-});
-
-test("errors", () => {
-  expect(() => coerce(NaN)).toThrowErrorMatchingInlineSnapshot(
-    '"Not clear how to coerce value to type: \\"<NaN>\\""'
-  );
-  expect(() => coerce(Infinity)).toThrowErrorMatchingInlineSnapshot(
-    '"Not clear how to coerce value to type: \\"<Infinity>\\""'
-  );
 });
