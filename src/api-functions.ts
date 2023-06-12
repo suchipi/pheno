@@ -73,22 +73,38 @@ function replacer(_key: string, value: any) {
   }
 }
 
-export function assertType<T>(
+const defaultMessageMaker = (target: any, expectedType: TypeValidator<any>) =>
+  `Expected value of type ${
+    expectedType.name || "<anonymous>"
+  }, but received ${stringifyValue(target)}`;
+
+function _assertType<T>(
   target: any,
   type: TypeValidator<T>,
-  messageMaker: (target: any, expectedType: TypeValidator<any>) => string = (
+  messageMaker: (
     target: any,
     expectedType: TypeValidator<any>
-  ) =>
-    `Expected value of type ${
-      expectedType.name || "<anonymous>"
-    }, but received ${stringifyValue(target)}`
+  ) => string = defaultMessageMaker
 ): asserts target is T {
   const isOfType = type(target);
   if (!isOfType) {
     throw new Error(messageMaker(target, type));
   }
 }
+
+Object.defineProperties(_assertType, {
+  name: { value: "assertType", configurable: true },
+  defaultMessageMaker: {
+    get() {
+      return defaultMessageMaker;
+    },
+  },
+});
+
+export const assertType: {
+  readonly defaultMessageMaker: typeof defaultMessageMaker;
+} & typeof _assertType = _assertType as any;
+
 
 export function isOfType<T>(target: any, type: TypeValidator<T>): target is T {
   return type(target);

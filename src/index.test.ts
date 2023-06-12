@@ -848,3 +848,13 @@ test("exported categories", () => {
     expect(t[key]).not.toBeUndefined();
   }
 });
+
+test("default message maker", () => {
+  const message = t.assertType.defaultMessageMaker(
+    { something: new Set([1, 2, 3]) },
+    t.number
+  );
+  expect(message).toMatchInlineSnapshot(
+    '"Expected value of type number, but received {\\"something\\":{\\"<Set of size 3>\\":\\"[1,2,3]\\"}}"'
+  );
+});
