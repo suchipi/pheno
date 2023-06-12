@@ -79,13 +79,13 @@ test("assertType value formatting", () => {
       t.string
     );
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received {\\"<Map of size 2>\\":\\"[[1,2],[3,4]]\\"}"'
+    '"Expected value of type string, but received {\\"<Map of size 2>\\":[[1,2],[3,4]]}"'
   );
 
   expect(() => {
     t.assertType(new Set([1, 2, 3, 4, 5, 6]), t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received {\\"<Set of size 6>\\":\\"[1,2,3,4,5,6]\\"}"'
+    '"Expected value of type string, but received {\\"<Set of size 6>\\":[1,2,3,4,5,6]}"'
   );
 
   expect(() => {
@@ -851,11 +851,11 @@ test("exported categories", () => {
 
 test("default message maker", () => {
   const message = t.assertType.defaultMessageMaker(
-    { something: new Set([1, 2, 3]) },
+    { something: new Set([1, new Map([[{}, { five: 5 }]]), 3]) },
     t.number
   );
   expect(message).toMatchInlineSnapshot(
-    '"Expected value of type number, but received {\\"something\\":{\\"<Set of size 3>\\":\\"[1,2,3]\\"}}"'
+    '"Expected value of type number, but received {\\"something\\":{\\"<Set of size 3>\\":[1,{\\"<Map of size 1>\\":[[{},{\\"five\\":5}]]},3]}}"'
   );
 });
 

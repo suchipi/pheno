@@ -58,15 +58,11 @@ function replacer(_key: string, value: any) {
 
   if (tag === "Map") {
     return {
-      [`<${tag} of size ${value.size}>`]: stringifyValue(
-        Array.from(value.entries())
-      ),
+      [`<${tag} of size ${value.size}>`]: Array.from(value.entries()),
     };
   } else if (tag === "Set") {
     return {
-      [`<${tag} of size ${value.size}>`]: stringifyValue(
-        Array.from(value.values())
-      ),
+      [`<${tag} of size ${value.size}>`]: Array.from(value.values()),
     };
   } else {
     return `<${tag}>`;
