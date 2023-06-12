@@ -84,11 +84,12 @@ function _assertType<T>(
   messageMaker: (
     target: any,
     expectedType: TypeValidator<any>
-  ) => string = defaultMessageMaker
+  ) => string = defaultMessageMaker,
+  ErrorConstructor: { new (message?: string): any } = TypeError
 ): asserts target is T {
   const isOfType = type(target);
   if (!isOfType) {
-    throw new Error(messageMaker(target, type));
+    throw new ErrorConstructor(messageMaker(target, type));
   }
 }
 

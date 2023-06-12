@@ -858,3 +858,16 @@ test("default message maker", () => {
     '"Expected value of type number, but received {\\"something\\":{\\"<Set of size 3>\\":\\"[1,2,3]\\"}}"'
   );
 });
+
+test("custom error constructor", () => {
+  class MyError extends Error {}
+
+  try {
+    t.assertType({}, t.string, t.assertType.defaultMessageMaker, MyError);
+  } catch (err) {
+    expect(err).toBeInstanceOf(MyError);
+    expect(err.message).toMatchInlineSnapshot(
+      '"Expected value of type string, but received {}"'
+    );
+  }
+});
