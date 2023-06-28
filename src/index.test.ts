@@ -166,6 +166,10 @@ test("basic types", () => {
   expect(t.isOfType(null, t.Object)).toBe(false);
   expect(t.isOfType({ one: 1 }, t.Object)).toBe(true);
 
+  expect(t.isOfType(354267, t.objectOrNull)).toBe(false);
+  expect(t.isOfType(null, t.objectOrNull)).toBe(true);
+  expect(t.isOfType({ one: 1 }, t.objectOrNull)).toBe(true);
+
   expect(t.isOfType(354267, t.arrayOfAny)).toBe(false);
   expect(t.isOfType([1, "f", null], t.arrayOfAny)).toBe(true);
 
@@ -718,6 +722,17 @@ test("type constructors", () => {
     expect(t.isOfType(null, type)).toBe(true);
     expect(t.isOfType(undefined, type)).toBe(true);
     expect(type.name).toMatchInlineSnapshot('"maybe(number)"');
+  }
+
+  {
+    const type = t.optional(t.number);
+    expect(t.isOfType({}, type)).toBe(false);
+    expect(t.isOfType(false, type)).toBe(false);
+    expect(t.isOfType(0, type)).toBe(true);
+    expect(t.isOfType(5, type)).toBe(true);
+    expect(t.isOfType(null, type)).toBe(false);
+    expect(t.isOfType(undefined, type)).toBe(true);
+    expect(type.name).toMatchInlineSnapshot('"optional(number)"');
   }
 
   {

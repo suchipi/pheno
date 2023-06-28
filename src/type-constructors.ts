@@ -483,6 +483,16 @@ export function maybe<T>(
   return ret;
 }
 
+export function optional<T>(
+  itemType: TypeValidator<T>
+): TypeValidator<T | undefined | null> {
+  assertType(itemType, basicTypes.anyTypeValidator);
+
+  const ret = union(itemType, basicTypes.undefined);
+  setName(ret, `optional(${itemType.name})`);
+  return ret;
+}
+
 export function objectWithProperties<
   T extends { [key: string | number | symbol]: TypeValidator<any> }
 >(

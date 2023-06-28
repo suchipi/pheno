@@ -25,6 +25,13 @@ setName(object, "object");
 const Object_ = object;
 export { Object_ as Object };
 
+export const objectOrNull: TypeValidator<
+  {
+    [key: string | number | symbol]: any;
+  } | null
+> = (target: any): target is any => typeof target === "object";
+setName(objectOrNull, "objectOrNull");
+
 export const arrayOfAny: TypeValidator<Array<any>> = (target): target is any =>
   Array.isArray(target);
 setName(arrayOfAny, "arrayOfAny");
