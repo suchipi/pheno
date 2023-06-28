@@ -356,3 +356,19 @@ const Float64Array_: TypeValidator<Float64Array> = (
 };
 setName(Float64Array_, "Float64Array");
 export { Float64Array_ as Float64Array };
+
+const anyTypeValidator: TypeValidator<TypeValidator<any>> = (
+  target
+): target is TypeValidator<any> => {
+  return typeof target === "function";
+};
+setName(anyTypeValidator, "anyTypeValidator");
+export { anyTypeValidator };
+
+const unknownTypeValidator: TypeValidator<TypeValidator<unknown>> = (
+  target
+): target is TypeValidator<unknown> => {
+  return typeof target === "function";
+};
+setName(unknownTypeValidator, "unknownTypeValidator");
+export { unknownTypeValidator };

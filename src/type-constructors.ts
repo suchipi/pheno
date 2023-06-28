@@ -1,16 +1,22 @@
 import type { TypeValidator } from "./type-validator";
 import * as basicTypes from "./basic-types";
-import { setName } from "./utils";
+import { assertType } from "./api-functions";
+import { setName, hasOwn, allEntries } from "./utils";
 
-function objectStr(obj: { [key: string | number | symbol]: string }) {
-  return `{ ${Object.entries(obj)
-    .map(([key, value]) => `${key}: ${value}`)
+export function objectStr(obj: { [key: string | number | symbol]: string }) {
+  return `{ ${allEntries(obj)
+    .map(
+      ([key, value]) =>
+        `${typeof key === "string" ? key : `[${String(key)}]`}: ${value}`
+    )
     .join(", ")} }`;
 }
 
 export function arrayOf<T>(
   typeValidator: TypeValidator<T>
 ): TypeValidator<Array<T>> {
+  assertType(typeValidator, basicTypes.anyTypeValidator);
+
   const ret = (target): target is Array<T> =>
     basicTypes.arrayOfAny(target) && target.every(typeValidator);
   setName(ret, `arrayOf(${typeValidator.name})`);
@@ -18,24 +24,32 @@ export function arrayOf<T>(
 }
 
 export function exactString<T extends string>(str: T): TypeValidator<T> {
+  assertType(str, basicTypes.string);
+
   const ret = (target): target is T => target === str;
   setName(ret, `exactString(${JSON.stringify(str)})`);
   return ret;
 }
 
 export function exactNumber<T extends number>(num: T): TypeValidator<T> {
+  assertType(num, basicTypes.numberIncludingNanAndInfinities);
+
   const ret = (target): target is T => target === num;
   setName(ret, `exactNumber(${num})`);
   return ret;
 }
 
 export function exactBigInt<T extends bigint>(num: T): TypeValidator<T> {
+  assertType(num, basicTypes.BigInt);
+
   const ret = (target): target is T => target === num;
   setName(ret, `exactBigInt(${num})`);
   return ret;
 }
 
 export function exactSymbol<T extends symbol>(sym: T): TypeValidator<T> {
+  assertType(sym, basicTypes.symbol);
+
   const ret = (target): target is T => target === sym;
   setName(ret, `exactSymbol(Symbol(${String(sym.description)}))`);
   return ret;
@@ -44,6 +58,8 @@ export function exactSymbol<T extends symbol>(sym: T): TypeValidator<T> {
 export function hasClassName<Name extends string>(
   name: Name
 ): TypeValidator<{ constructor: Function & { name: Name } }> {
+  assertType(name, basicTypes.string);
+
   const ret = (target): target is { constructor: Function & { name: Name } } =>
     basicTypes.nonNullOrUndefined(target) &&
     typeof target.constructor === "function" &&
@@ -53,19 +69,13 @@ export function hasClassName<Name extends string>(
 }
 
 export function hasToStringTag(name: string): TypeValidator<any> {
+  assertType(name, basicTypes.string);
+
   const expectedResult = `[object ${name}]`;
   const ret = (target: any): target is any => {
     return Object.prototype.toString.call(target) === expectedResult;
   };
   setName(ret, `hasToStringTag(${JSON.stringify(name)})`);
-  return ret;
-}
-
-export function instanceOf<Klass extends Function & { prototype: any }>(
-  klass: Klass
-): TypeValidator<Klass["prototype"]> {
-  const ret = (target): target is Klass => target instanceof klass;
-  setName(ret, `instanceOf(${JSON.stringify(klass.name)})`);
   return ret;
 }
 
@@ -230,9 +240,13 @@ export interface IntersectionFn {
   >;
 }
 
+const arrayOfTypeValidator = arrayOf(basicTypes.anyTypeValidator);
+
 export const intersection: IntersectionFn = (
   ...args: Array<TypeValidator<any>>
 ) => {
+  assertType(args, arrayOfTypeValidator);
+
   const ret = (target: any): target is any => args.every((arg) => arg(target));
   setName(ret, `intersection(${args.map((arg) => arg.name).join(", ")})`);
   return ret;
@@ -402,6 +416,8 @@ export interface UnionFn {
 }
 
 export const union: UnionFn = (...args: Array<TypeValidator<any>>) => {
+  assertType(args, arrayOfTypeValidator);
+
   const ret = (target: any): target is any => args.some((arg) => arg(target));
   setName(ret, `union(${args.map((arg) => arg.name).join(", ")})`);
   return ret;
@@ -409,10 +425,33 @@ export const union: UnionFn = (...args: Array<TypeValidator<any>>) => {
 
 export const or = union;
 
+let thingThatCanHaveInstance: TypeValidator<any>;
+if (typeof Symbol !== "undefined" && typeof Symbol.hasInstance === "symbol") {
+  thingThatCanHaveInstance = or(
+    basicTypes.anyFunction,
+    objectWithProperties({ [Symbol.hasInstance]: basicTypes.anyFunction })
+  );
+} else {
+  thingThatCanHaveInstance = basicTypes.anyFunction;
+}
+
+export function instanceOf<Klass extends Function & { prototype: any }>(
+  klass: Klass
+): TypeValidator<Klass["prototype"]> {
+  assertType(klass, thingThatCanHaveInstance);
+
+  const ret = (target): target is Klass => target instanceof klass;
+  setName(ret, `instanceOf(${JSON.stringify(klass.name)})`);
+  return ret;
+}
+
 export function mapOf<K, V>(
   keyType: TypeValidator<K>,
   valueType: TypeValidator<V>
 ): TypeValidator<Map<K, V>> {
+  assertType(keyType, basicTypes.anyTypeValidator);
+  assertType(valueType, basicTypes.anyTypeValidator);
+
   const ret = (target): target is Map<K, V> =>
     basicTypes.anyMap(target) &&
     Array.from(target.keys()).every(keyType) &&
@@ -424,6 +463,8 @@ export function mapOf<K, V>(
 }
 
 export function setOf<T>(itemType: TypeValidator<T>): TypeValidator<Set<T>> {
+  assertType(itemType, basicTypes.anyTypeValidator);
+
   const ret = (target): target is Set<T> =>
     basicTypes.anySet(target) && Array.from(target.values()).every(itemType);
 
@@ -435,6 +476,8 @@ export function setOf<T>(itemType: TypeValidator<T>): TypeValidator<Set<T>> {
 export function maybe<T>(
   itemType: TypeValidator<T>
 ): TypeValidator<T | undefined | null> {
+  assertType(itemType, basicTypes.anyTypeValidator);
+
   const ret = union(itemType, basicTypes.undefined, basicTypes.null);
   setName(ret, `maybe(${itemType.name})`);
   return ret;
@@ -447,7 +490,15 @@ export function objectWithProperties<
 ): TypeValidator<{
   [key in keyof T]: T[key] extends TypeValidator<infer U> ? U : never;
 }> {
-  const propEntries = Object.entries(properties);
+  assertType(properties, basicTypes.anyObject);
+
+  for (const key in properties) {
+    if (hasOwn(properties, key)) {
+      assertType(properties[key], basicTypes.anyTypeValidator);
+    }
+  }
+
+  const propEntries = allEntries(properties);
 
   const ret = (
     target
@@ -477,8 +528,16 @@ export function objectWithOnlyTheseProperties<
 ): TypeValidator<{
   [key in keyof T]: T[key] extends TypeValidator<infer U> ? U : never;
 }> {
-  const propEntries = Object.entries(properties);
-  const propKeysSet = new Set(Object.keys(properties));
+  assertType(properties, basicTypes.anyObject);
+
+  for (const key in properties) {
+    if (hasOwn(properties, key)) {
+      assertType(properties[key], basicTypes.anyTypeValidator);
+    }
+  }
+
+  const propEntries = allEntries(properties);
+  const propKeysSet = new Set(Reflect.ownKeys(properties));
 
   const ret = (
     target
@@ -489,11 +548,11 @@ export function objectWithOnlyTheseProperties<
     if (!propEntries.every(([name, validator]) => validator(target[name])))
       return false;
 
-    const targetEntries = Object.entries(target);
+    const targetEntries = allEntries(target);
 
     return (
       targetEntries.length === propEntries.length &&
-      targetEntries.every(([key, _value]) => propKeysSet.has(key))
+      targetEntries.every(([key, _value]) => propKeysSet.has(typeof key === "number" ? String(key) : key))
     );
   };
 
@@ -514,9 +573,12 @@ export function mappingObjectOf<
   keyType: TypeValidator<Keys>,
   valueType: TypeValidator<Values>
 ): TypeValidator<Record<Keys, Values>> {
+  assertType(keyType, basicTypes.anyTypeValidator);
+  assertType(valueType, basicTypes.anyTypeValidator);
+
   const ret = (target): target is Record<Keys, Values> =>
     basicTypes.anyObject(target) &&
-    Object.entries(target).every(
+    allEntries(target).every(
       ([key, value]) => keyType(key) && valueType(value)
     );
   setName(ret, `mappingObjectOf(${keyType.name}, ${valueType.name})`);
@@ -534,7 +596,15 @@ export function partialObjectWithProperties<
     ? U | null | undefined
     : never;
 }> {
-  const propEntries = Object.entries(properties);
+  assertType(properties, basicTypes.anyObject);
+
+  for (const key in properties) {
+    if (hasOwn(properties, key)) {
+      assertType(properties[key], basicTypes.anyTypeValidator);
+    }
+  }
+
+  const propEntries = allEntries(properties);
 
   const ret = (
     target
@@ -567,6 +637,8 @@ export function partialObjectWithProperties<
 }
 
 export function stringMatching(regexp: RegExp): TypeValidator<string> {
+  assertType(regexp, basicTypes.RegExp);
+
   const ret = (target): target is string => {
     // We make a new regexp each time so that state from one match doesn't affect another
     const newRegExp = new RegExp(regexp.source, regexp.flags);
@@ -577,6 +649,8 @@ export function stringMatching(regexp: RegExp): TypeValidator<string> {
 }
 
 export function symbolFor(key: string): TypeValidator<symbol> {
+  assertType(key, basicTypes.string);
+
   const ret = (target): target is symbol => target === Symbol.for(key);
   setName(ret, `symbolFor(${JSON.stringify(key)})`);
   return ret;
@@ -752,6 +826,8 @@ export interface TupleFn {
 }
 
 export const tuple: TupleFn = (...args: Array<TypeValidator<any>>) => {
+  assertType(args, arrayOfTypeValidator);
+
   const ret = (target: any): target is any =>
     basicTypes.anyArray(target) &&
     target.length === args.length &&

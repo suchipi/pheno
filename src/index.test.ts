@@ -871,3 +871,157 @@ test("custom error constructor", () => {
     );
   }
 });
+
+test("type constructors throw errors when passed invalid args", () => {
+  expect(() => {
+    t.arrayOf(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyTypeValidator, but received 5"'
+  );
+
+  expect(() => {
+    t.exactString(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type string, but received 5"'
+  );
+
+  expect(() => {
+    t.exactNumber({});
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type numberIncludingNanAndInfinities, but received {}"'
+  );
+
+  expect(() => {
+    t.exactBigInt(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type bigint, but received 5"'
+  );
+
+  expect(() => {
+    t.exactSymbol(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type Symbol, but received 5"'
+  );
+
+  expect(() => {
+    t.hasClassName(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type string, but received 5"'
+  );
+
+  expect(() => {
+    t.hasToStringTag(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type string, but received 5"'
+  );
+
+  expect(() => {
+    t.intersection(5, 6);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+  );
+
+  expect(() => {
+    t.and(5, 6);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+  );
+
+  expect(() => {
+    t.union(5, 6);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+  );
+
+  expect(() => {
+    t.or(5, 6);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+  );
+
+  expect(() => {
+    t.instanceOf(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received 5"'
+  );
+
+  expect(() => {
+    t.instanceOf({});
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received {}"'
+  );
+
+  expect(() => {
+    const objectThatCanHaveInstance = {
+      [Symbol.hasInstance]: () => false,
+    };
+
+    t.instanceOf(objectThatCanHaveInstance);
+  }).not.toThrowError();
+
+  expect(() => {
+    t.mapOf(5, 6);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyTypeValidator, but received 5"'
+  );
+
+  expect(() => {
+    t.setOf(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyTypeValidator, but received 5"'
+  );
+
+  expect(() => {
+    t.maybe(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyTypeValidator, but received 5"'
+  );
+
+  expect(() => {
+    t.objectWithProperties(5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyObject, but received 5"'
+  );
+
+  expect(() => {
+    t.objectWithProperties(null);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyObject, but received null"'
+  );
+
+  expect(() => {
+    t.objectWithOnlyTheseProperties(null);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyObject, but received null"'
+  );
+
+  expect(() => {
+    t.mappingObjectOf(null, 5);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyTypeValidator, but received null"'
+  );
+
+  expect(() => {
+    t.partialObjectWithProperties(17);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type anyObject, but received 17"'
+  );
+
+  expect(() => {
+    t.stringMatching(435);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type RegExp, but received 435"'
+  );
+
+  expect(() => {
+    t.symbolFor(435);
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type string, but received 435"'
+  );
+
+  expect(() => {
+    t.tuple(1, 2, {});
+  }).toThrowErrorMatchingInlineSnapshot(
+    '"Expected value of type arrayOf(anyTypeValidator), but received [1,2,{}]"'
+  );
+});

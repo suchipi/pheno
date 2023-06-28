@@ -35,6 +35,7 @@ function something(first: unknown, second: unknown) {
 - `anyMap`
 - `anyObject`
 - `anySet`
+- `anyTypeValidator`
 - `array` (alias of `arrayOfUnknown`)
 - `arrayOf`
 - `arrayOfAny`
@@ -105,6 +106,7 @@ function something(first: unknown, second: unknown) {
 - `unknownMap`
 - `unknownObject`
 - `unknownSet`
+- `unknownTypeValidator`
 - `ArrayBuffer`
 - `SharedArrayBuffer`
 - `DataView`

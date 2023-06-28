@@ -10,6 +10,7 @@
     "build:kame": "kame bundle --output ./dist/bundle.js --loader ./kame-loader.js",
     "build:minify": "terser ./dist/bundle.js -m eval=true -c > ./dist/bundle.min.js",
     "build": "rm -rf dist && npm run build:ts && npm run build:kame && npm run build:minify",
+    "build:watch": "chokidar 'src/**/*' 'kame-loader.js' -c 'npm run build && echo Done' --initial",
     "test": "vitest"
   },
   "keywords": [
@@ -26,11 +27,12 @@
   "author": "Lily Skye <me@suchipi.com>",
   "license": "MIT",
   "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "kame": "^0.9.0",
     "prettier": "^2.5.1",
     "terser": "^5.11.0",
     "typescript": "^4.5.5",
-    "vitest": "^0.6.0",
-    "kame": "^0.9.0"
+    "vitest": "^0.6.0"
   },
   "repository": {
     "type": "git",
