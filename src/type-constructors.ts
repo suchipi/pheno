@@ -485,7 +485,7 @@ export function maybe<T>(
 
 export function optional<T>(
   itemType: TypeValidator<T>
-): TypeValidator<T | undefined | null> {
+): TypeValidator<T | undefined> {
   assertType(itemType, basicTypes.anyTypeValidator);
 
   const ret = union(itemType, basicTypes.undefined);
