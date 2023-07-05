@@ -627,7 +627,7 @@ test("type constructors", () => {
     const type = t.instanceOf(Something);
     expect(t.isOfType("hi", type)).toBe(false);
     expect(t.isOfType(something, type)).toBe(true);
-    expect(type.name).toMatchInlineSnapshot('"instanceOf(\\"Something\\")"');
+    expect(type.name).toMatchInlineSnapshot('"instanceOf(Something)"');
   }
 
   {

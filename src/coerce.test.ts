@@ -108,7 +108,7 @@ test("coercion", () => {
       "Uint32Array",
       "Float32Array",
       "Float64Array",
-      "instanceOf(\\"MyClass\\")",
+      "instanceOf(MyClass)",
       "NaN",
       "Infinity",
       "NegativeInfinity",

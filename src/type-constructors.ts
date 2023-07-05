@@ -441,7 +441,7 @@ export function instanceOf<Klass extends Function & { prototype: any }>(
   assertType(klass, thingThatCanHaveInstance);
 
   const ret = (target): target is Klass => target instanceof klass;
-  setName(ret, `instanceOf(${JSON.stringify(klass.name)})`);
+  setName(ret, `instanceOf(${klass.name})`);
   return ret;
 }
 
