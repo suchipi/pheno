@@ -71,7 +71,9 @@ function replacer(_key: string, value: any) {
 
 const defaultMessageMaker = (target: any, expectedType: TypeValidator<any>) =>
   `Expected value of type ${
-    expectedType.name || "<anonymous>"
+    typeof expectedType === "function"
+      ? expectedType.name || "<unknown>"
+      : `<invalid type validator: ${stringifyValue(expectedType)}>`
   }, but received ${stringifyValue(target)}`;
 
 function _assertType<T>(
@@ -83,6 +85,14 @@ function _assertType<T>(
   ) => string = defaultMessageMaker,
   ErrorConstructor: { new (message?: string): any } = TypeError
 ): asserts target is T {
+  if (typeof type !== "function") {
+    throw new TypeError(
+      `'type' argument passed into 'assertType' was the wrong type. It should be a function, but it was: ${stringifyValue(
+        type
+      )}`
+    );
+  }
+
   const isOfType = type(target);
   if (!isOfType) {
     throw new ErrorConstructor(messageMaker(target, type));
@@ -102,8 +112,15 @@ export const assertType: {
   readonly defaultMessageMaker: typeof defaultMessageMaker;
 } & typeof _assertType = _assertType as any;
 
-
 export function isOfType<T>(target: any, type: TypeValidator<T>): target is T {
+  if (typeof type !== "function") {
+    throw new TypeError(
+      `'type' argument passed into 'isOfType' was the wrong type. It should be a function, but it was: ${stringifyValue(
+        type
+      )}`
+    );
+  }
+
   return type(target);
 }
 

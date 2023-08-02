@@ -874,6 +874,16 @@ test("default message maker", () => {
   );
 });
 
+test("default message maker with incorrect type validator", () => {
+  const message = t.assertType.defaultMessageMaker(
+    { something: new Set([1, new Map([[{}, { five: 5 }]]), 3]) },
+    { potato: null }
+  );
+  expect(message).toMatchInlineSnapshot(
+    '"Expected value of type <invalid type validator: {\\"potato\\":null}>, but received {\\"something\\":{\\"<Set of size 3>\\":[1,{\\"<Map of size 1>\\":[[{},{\\"five\\":5}]]},3]}}"'
+  );
+});
+
 test("custom error constructor", () => {
   class MyError extends Error {}
 
@@ -1039,4 +1049,14 @@ test("type constructors throw errors when passed invalid args", () => {
   }).toThrowErrorMatchingInlineSnapshot(
     '"Expected value of type arrayOf(anyTypeValidator), but received [1,2,{}]"'
   );
+});
+
+test("api functions throw errors when passed invalid type validators", () => {
+  expect(() => {
+    t.assertType(null, null);
+  }).toThrowErrorMatchingInlineSnapshot('"\'type\' argument passed into \'assertType\' was the wrong type. It should be a function, but it was: null"');
+
+  expect(() => {
+    t.isOfType(null, null);
+  }).toThrowErrorMatchingInlineSnapshot('"\'type\' argument passed into \'isOfType\' was the wrong type. It should be a function, but it was: null"');
 });
