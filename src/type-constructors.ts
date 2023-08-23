@@ -20,6 +20,7 @@ export function arrayOf<T>(
   const ret = (target): target is Array<T> =>
     basicTypes.arrayOfAny(target) && target.every(typeValidator);
   setName(ret, `arrayOf(${typeValidator.name})`);
+  ret._inner = typeValidator;
   return ret;
 }
 
@@ -28,6 +29,7 @@ export function exactString<T extends string>(str: T): TypeValidator<T> {
 
   const ret = (target): target is T => target === str;
   setName(ret, `exactString(${JSON.stringify(str)})`);
+  ret._inner = str;
   return ret;
 }
 
@@ -36,6 +38,7 @@ export function exactNumber<T extends number>(num: T): TypeValidator<T> {
 
   const ret = (target): target is T => target === num;
   setName(ret, `exactNumber(${num})`);
+  ret._inner = num;
   return ret;
 }
 
@@ -44,6 +47,7 @@ export function exactBigInt<T extends bigint>(num: T): TypeValidator<T> {
 
   const ret = (target): target is T => target === num;
   setName(ret, `exactBigInt(${num})`);
+  ret._inner = num;
   return ret;
 }
 
@@ -52,6 +56,7 @@ export function exactSymbol<T extends symbol>(sym: T): TypeValidator<T> {
 
   const ret = (target): target is T => target === sym;
   setName(ret, `exactSymbol(Symbol(${String(sym.description)}))`);
+  ret._inner = sym;
   return ret;
 }
 
@@ -65,6 +70,7 @@ export function hasClassName<Name extends string>(
     typeof target.constructor === "function" &&
     target.constructor.name === name;
   setName(ret, `hasClassName(${JSON.stringify(name)})`);
+  ret._inner = name;
   return ret;
 }
 
@@ -76,6 +82,7 @@ export function hasToStringTag(name: string): TypeValidator<any> {
     return Object.prototype.toString.call(target) === expectedResult;
   };
   setName(ret, `hasToStringTag(${JSON.stringify(name)})`);
+  ret._inner = name;
   return ret;
 }
 
@@ -249,6 +256,7 @@ export const intersection: IntersectionFn = (
 
   const ret = (target: any): target is any => args.every((arg) => arg(target));
   setName(ret, `intersection(${args.map((arg) => arg.name).join(", ")})`);
+  ret._inner = args;
   return ret;
 };
 
@@ -420,6 +428,7 @@ export const union: UnionFn = (...args: Array<TypeValidator<any>>) => {
 
   const ret = (target: any): target is any => args.some((arg) => arg(target));
   setName(ret, `union(${args.map((arg) => arg.name).join(", ")})`);
+  ret._inner = args;
   return ret;
 };
 
@@ -442,6 +451,7 @@ export function instanceOf<Klass extends Function & { prototype: any }>(
 
   const ret = (target): target is Klass => target instanceof klass;
   setName(ret, `instanceOf(${klass.name})`);
+  ret._inner = klass;
   return ret;
 }
 
@@ -459,6 +469,8 @@ export function mapOf<K, V>(
 
   setName(ret, `mapOf(${keyType.name}, ${valueType.name})`);
 
+  ret._inner = [keyType, valueType];
+
   return ret;
 }
 
@@ -470,6 +482,8 @@ export function setOf<T>(itemType: TypeValidator<T>): TypeValidator<Set<T>> {
 
   setName(ret, `setOf(${itemType.name})`);
 
+  ret._inner = itemType;
+
   return ret;
 }
 
@@ -480,6 +494,9 @@ export function maybe<T>(
 
   const ret = union(itemType, basicTypes.undefined, basicTypes.null);
   setName(ret, `maybe(${itemType.name})`);
+
+  (ret as any)._inner = itemType;
+
   return ret;
 }
 
@@ -490,6 +507,9 @@ export function optional<T>(
 
   const ret = union(itemType, basicTypes.undefined);
   setName(ret, `optional(${itemType.name})`);
+
+  (ret as any)._inner = itemType;
+
   return ret;
 }
 
@@ -528,6 +548,10 @@ export function objectWithProperties<
     )})`
   );
 
+  // We do this instead of just `ret._inner = properties` so mutations on the
+  // original object don't carry across
+  ret._inner = Object.fromEntries(propEntries);
+
   return ret;
 }
 
@@ -562,7 +586,9 @@ export function objectWithOnlyTheseProperties<
 
     return (
       targetEntries.length === propEntries.length &&
-      targetEntries.every(([key, _value]) => propKeysSet.has(typeof key === "number" ? String(key) : key))
+      targetEntries.every(([key, _value]) =>
+        propKeysSet.has(typeof key === "number" ? String(key) : key)
+      )
     );
   };
 
@@ -572,6 +598,10 @@ export function objectWithOnlyTheseProperties<
       Object.fromEntries(propEntries.map(([key, value]) => [key, value.name]))
     )})`
   );
+
+  // We do this instead of just `ret._inner = properties` so mutations on the
+  // original object don't carry across
+  ret._inner = Object.fromEntries(propEntries);
 
   return ret;
 }
@@ -592,6 +622,7 @@ export function mappingObjectOf<
       ([key, value]) => keyType(key) && valueType(value)
     );
   setName(ret, `mappingObjectOf(${keyType.name}, ${valueType.name})`);
+  ret._inner = [keyType, valueType];
   return ret;
 }
 
@@ -643,6 +674,10 @@ export function partialObjectWithProperties<
     )})`
   );
 
+  // We do this instead of just `ret._inner = properties` so mutations on the
+  // original object don't carry across
+  ret._inner = Object.fromEntries(propEntries);
+
   return ret;
 }
 
@@ -655,6 +690,7 @@ export function stringMatching(regexp: RegExp): TypeValidator<string> {
     return typeof target === "string" && newRegExp.test(target);
   };
   setName(ret, `stringMatching(${regexp})`);
+  ret._inner = regexp;
   return ret;
 }
 
@@ -663,6 +699,7 @@ export function symbolFor(key: string): TypeValidator<symbol> {
 
   const ret = (target): target is symbol => target === Symbol.for(key);
   setName(ret, `symbolFor(${JSON.stringify(key)})`);
+  ret._inner = key;
   return ret;
 }
 
@@ -846,6 +883,8 @@ export const tuple: TupleFn = (...args: Array<TypeValidator<any>>) => {
     });
 
   setName(ret, `tuple(${args.map((arg) => arg.name).join(", ")})`);
+
+  ret._inner = args;
 
   return ret;
 };
