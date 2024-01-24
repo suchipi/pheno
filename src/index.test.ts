@@ -15,7 +15,7 @@ test("basic test", () => {
   expect(() => {
     t.assertType(43, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received 43"'
+    `[TypeError: Expected value of type string, but received 43]`,
   );
 
   expect(
@@ -23,8 +23,8 @@ test("basic test", () => {
       43,
       t.objectWithProperties({
         potato: t.true,
-      })
-    )
+      }),
+    ),
   ).toBe(false);
 
   expect(() => {
@@ -32,10 +32,10 @@ test("basic test", () => {
       43,
       t.objectWithProperties({
         potato: t.true,
-      })
+      }),
     );
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type objectWithProperties({ potato: true }), but received 43"'
+    `[TypeError: Expected value of type objectWithProperties({ potato: true }), but received 43]`,
   );
 });
 
@@ -43,7 +43,7 @@ test("assertType value formatting", () => {
   expect(() => {
     t.assertType({ potato: false }, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received {\\"potato\\":false}"'
+    `[TypeError: Expected value of type string, but received {"potato":false}]`,
   );
 
   expect(() => {
@@ -52,10 +52,10 @@ test("assertType value formatting", () => {
         potato: function greenThumb() {},
         eggplant: () => {},
       },
-      t.string
+      t.string,
     );
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received {\\"potato\\":\\"<Function greenThumb>\\",\\"eggplant\\":\\"<Function eggplant>\\"}"'
+    `[TypeError: Expected value of type string, but received {"potato":"<Function greenThumb>","eggplant":"<Function eggplant>"}]`,
   );
 
   class Something {
@@ -67,7 +67,7 @@ test("assertType value formatting", () => {
   expect(() => {
     t.assertType(something, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<Something>\\""'
+    `[TypeError: Expected value of type string, but received "<Something>"]`,
   );
 
   expect(() => {
@@ -76,58 +76,58 @@ test("assertType value formatting", () => {
         [1, 2],
         [3, 4],
       ]),
-      t.string
+      t.string,
     );
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received {\\"<Map of size 2>\\":[[1,2],[3,4]]}"'
+    `[TypeError: Expected value of type string, but received {"<Map of size 2>":[[1,2],[3,4]]}]`,
   );
 
   expect(() => {
     t.assertType(new Set([1, 2, 3, 4, 5, 6]), t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received {\\"<Set of size 6>\\":[1,2,3,4,5,6]}"'
+    `[TypeError: Expected value of type string, but received {"<Set of size 6>":[1,2,3,4,5,6]}]`,
   );
 
   expect(() => {
     t.assertType(undefined, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<undefined>\\""'
+    `[TypeError: Expected value of type string, but received "<undefined>"]`,
   );
 
   expect(() => {
     t.assertType(BigInt("34895084309843905843905840935890438509"), t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<BigInt 34895084309843905843905840935890438509>\\""'
+    `[TypeError: Expected value of type string, but received "<BigInt 34895084309843905843905840935890438509>"]`,
   );
 
   expect(() => {
     t.assertType(Symbol("hi"), t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<Symbol hi>\\""'
+    `[TypeError: Expected value of type string, but received "<Symbol hi>"]`,
   );
 
   expect(() => {
     t.assertType(Symbol(), t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<Symbol>\\""'
+    `[TypeError: Expected value of type string, but received "<Symbol>"]`,
   );
 
   expect(() => {
     t.assertType(Array.isArray, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<Function isArray>\\""'
+    `[TypeError: Expected value of type string, but received "<Function isArray>"]`,
   );
 
   expect(() => {
     t.assertType(Symbol, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<Function Symbol>\\""'
+    `[TypeError: Expected value of type string, but received "<Function Symbol>"]`,
   );
 
   expect(() => {
     t.assertType(() => {}, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received \\"<Function>\\""'
+    `[TypeError: Expected value of type string, but received "<Function>"]`,
   );
 
   expect(() => {
@@ -137,7 +137,7 @@ test("assertType value formatting", () => {
 
     t.assertType(obj, t.string);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received {\\"[object Object] that failed to serialize due to error\\":\\"TypeError: Converting circular structure to JSON\\\\n    --> starting at object with constructor \'Object\'\\\\n    --- property \'obj\' closes the circle\\"}"'
+    `[TypeError: Expected value of type string, but received {"[object Object] that failed to serialize due to error":"TypeError: Converting circular structure to JSON\\n    --> starting at object with constructor 'Object'\\n    --- property 'obj' closes the circle"}]`,
   );
 });
 
@@ -357,8 +357,8 @@ test("basic types", () => {
         [1, 2],
         ["three", "four"],
       ]),
-      t.anyMap
-    )
+      t.anyMap,
+    ),
   ).toBe(true);
 
   expect(t.isOfType("hi", t.unknownMap)).toBe(false);
@@ -369,8 +369,8 @@ test("basic types", () => {
         [1, 2],
         ["three", "four"],
       ]),
-      t.unknownMap
-    )
+      t.unknownMap,
+    ),
   ).toBe(true);
 
   expect(t.isOfType("hi", t.map)).toBe(false);
@@ -381,8 +381,8 @@ test("basic types", () => {
         [1, 2],
         ["three", "four"],
       ]),
-      t.map
-    )
+      t.map,
+    ),
   ).toBe(true);
 
   expect(t.isOfType("hi", t.Map)).toBe(false);
@@ -393,8 +393,8 @@ test("basic types", () => {
         [1, 2],
         ["three", "four"],
       ]),
-      t.Map
-    )
+      t.Map,
+    ),
   ).toBe(true);
 
   expect(t.isOfType("hi", t.anySet)).toBe(false);
@@ -423,13 +423,13 @@ test("basic types - typed arrays", () => {
   expect(t.isOfType([], t.SharedArrayBuffer)).toBe(false);
   expect(t.isOfType(new ArrayBuffer(1024), t.SharedArrayBuffer)).toBe(false);
   expect(t.isOfType(new SharedArrayBuffer(1024), t.SharedArrayBuffer)).toBe(
-    true
+    true,
   );
 
   expect(t.isOfType(null, t.DataView)).toBe(false);
   expect(t.isOfType([], t.DataView)).toBe(false);
   expect(t.isOfType(new DataView(new ArrayBuffer(1024)), t.DataView)).toBe(
-    true
+    true,
   );
 
   expect(t.isOfType(null, t.TypedArray)).toBe(false);
@@ -568,7 +568,7 @@ test("type constructors", () => {
     expect(t.isOfType(324325432, type)).toBe(false);
     expect(t.isOfType("hi", type)).toBe(false);
     expect(t.isOfType("hello", type)).toBe(true);
-    expect(type.name).toMatchInlineSnapshot('"exactString(\\"hello\\")"');
+    expect(type.name).toMatchInlineSnapshot(`"exactString("hello")"`);
   }
 
   {
@@ -603,21 +603,21 @@ test("type constructors", () => {
     const type = t.hasClassName("Number");
     expect(t.isOfType("hi", type)).toBe(false);
     expect(t.isOfType(42, type)).toBe(true);
-    expect(type.name).toMatchInlineSnapshot('"hasClassName(\\"Number\\")"');
+    expect(type.name).toMatchInlineSnapshot(`"hasClassName("Number")"`);
   }
 
   {
     const type = t.hasClassName("Boolean");
     expect(t.isOfType("hi", type)).toBe(false);
     expect(t.isOfType(true, type)).toBe(true);
-    expect(type.name).toMatchInlineSnapshot('"hasClassName(\\"Boolean\\")"');
+    expect(type.name).toMatchInlineSnapshot(`"hasClassName("Boolean")"`);
   }
 
   {
     const type = t.hasToStringTag("Null");
     expect(t.isOfType(null, type)).toBe(true);
     expect(t.isOfType({}, type)).toBe(false);
-    expect(type.name).toMatchInlineSnapshot('"hasToStringTag(\\"Null\\")"');
+    expect(type.name).toMatchInlineSnapshot(`"hasToStringTag("Null")"`);
   }
 
   {
@@ -633,7 +633,7 @@ test("type constructors", () => {
   {
     const type = t.intersection(
       t.objectWithProperties({ one: t.number }),
-      t.objectWithProperties({ two: t.number })
+      t.objectWithProperties({ two: t.number }),
     );
     expect(t.isOfType("hi", type)).toBe(false);
     expect(t.isOfType({}, type)).toBe(false);
@@ -641,14 +641,14 @@ test("type constructors", () => {
     expect(t.isOfType({ two: 2 }, type)).toBe(false);
     expect(t.isOfType({ one: 1, two: 2 }, type)).toBe(true);
     expect(type.name).toMatchInlineSnapshot(
-      '"intersection(objectWithProperties({ one: number }), objectWithProperties({ two: number }))"'
+      '"intersection(objectWithProperties({ one: number }), objectWithProperties({ two: number }))"',
     );
   }
 
   {
     const type = t.and(
       t.objectWithProperties({ one: t.number }),
-      t.objectWithProperties({ two: t.number })
+      t.objectWithProperties({ two: t.number }),
     );
     expect(t.isOfType("hi", type)).toBe(false);
     expect(t.isOfType({}, type)).toBe(false);
@@ -656,7 +656,7 @@ test("type constructors", () => {
     expect(t.isOfType({ two: 2 }, type)).toBe(false);
     expect(t.isOfType({ one: 1, two: 2 }, type)).toBe(true);
     expect(type.name).toMatchInlineSnapshot(
-      '"intersection(objectWithProperties({ one: number }), objectWithProperties({ two: number }))"'
+      '"intersection(objectWithProperties({ one: number }), objectWithProperties({ two: number }))"',
     );
   }
 
@@ -688,8 +688,8 @@ test("type constructors", () => {
           [1, "one"],
           [2, "two"],
         ]),
-        type
-      )
+        type,
+      ),
     ).toBe(true);
     expect(
       t.isOfType(
@@ -697,8 +697,8 @@ test("type constructors", () => {
           ["one", 1],
           ["two", 2],
         ]),
-        type
-      )
+        type,
+      ),
     ).toBe(false);
     expect(type.name).toMatchInlineSnapshot('"mapOf(number, string)"');
   }
@@ -744,7 +744,7 @@ test("type constructors", () => {
     expect(t.isOfType({ one: 1, two: "hi", three: "yes" }, type)).toBe(true);
 
     expect(type.name).toMatchInlineSnapshot(
-      '"objectWithProperties({ one: number, two: string })"'
+      '"objectWithProperties({ one: number, two: string })"',
     );
   }
 
@@ -760,7 +760,7 @@ test("type constructors", () => {
     expect(t.isOfType({ one: 1, two: "hi", three: "yes" }, type)).toBe(false);
 
     expect(type.name).toMatchInlineSnapshot(
-      '"objectWithOnlyTheseProperties({ one: number, two: string })"'
+      '"objectWithOnlyTheseProperties({ one: number, two: string })"',
     );
   }
 
@@ -773,7 +773,7 @@ test("type constructors", () => {
     expect(t.isOfType({ hi: 4, there: 5 }, type)).toBe(true);
 
     expect(type.name).toMatchInlineSnapshot(
-      '"mappingObjectOf(string, number)"'
+      '"mappingObjectOf(string, number)"',
     );
   }
 
@@ -786,7 +786,7 @@ test("type constructors", () => {
     expect(t.isOfType({ hi: 4, there: 5 }, type)).toBe(true);
 
     expect(type.name).toMatchInlineSnapshot(
-      '"mappingObjectOf(string, number)"'
+      '"mappingObjectOf(string, number)"',
     );
   }
 
@@ -806,7 +806,7 @@ test("type constructors", () => {
     expect(t.isOfType({ one: null, two: undefined }, type)).toBe(true);
 
     expect(type.name).toMatchInlineSnapshot(
-      '"partialObjectWithProperties({ one: union(string, null, undefined), two: union(boolean, null, undefined) })"'
+      '"partialObjectWithProperties({ one: union(string, null, undefined), two: union(boolean, null, undefined) })"',
     );
   }
 
@@ -829,7 +829,7 @@ test("type constructors", () => {
     expect(t.isOfType(Symbol("blah"), type)).toBe(false);
     expect(t.isOfType(Symbol.for("blah"), type)).toBe(true);
 
-    expect(type.name).toMatchInlineSnapshot('"symbolFor(\\"blah\\")"');
+    expect(type.name).toMatchInlineSnapshot(`"symbolFor("blah")"`);
   }
 
   {
@@ -867,20 +867,20 @@ test("exported categories", () => {
 test("default message maker", () => {
   const message = t.assertType.defaultMessageMaker(
     { something: new Set([1, new Map([[{}, { five: 5 }]]), 3]) },
-    t.number
+    t.number,
   );
   expect(message).toMatchInlineSnapshot(
-    '"Expected value of type number, but received {\\"something\\":{\\"<Set of size 3>\\":[1,{\\"<Map of size 1>\\":[[{},{\\"five\\":5}]]},3]}}"'
+    `"Expected value of type number, but received {"something":{"<Set of size 3>":[1,{"<Map of size 1>":[[{},{"five":5}]]},3]}}"`,
   );
 });
 
 test("default message maker with incorrect type validator", () => {
   const message = t.assertType.defaultMessageMaker(
     { something: new Set([1, new Map([[{}, { five: 5 }]]), 3]) },
-    { potato: null }
+    { potato: null },
   );
   expect(message).toMatchInlineSnapshot(
-    '"Expected value of type <invalid type validator: {\\"potato\\":null}>, but received {\\"something\\":{\\"<Set of size 3>\\":[1,{\\"<Map of size 1>\\":[[{},{\\"five\\":5}]]},3]}}"'
+    `"Expected value of type <invalid type validator: {"potato":null}>, but received {"something":{"<Set of size 3>":[1,{"<Map of size 1>":[[{},{"five":5}]]},3]}}"`,
   );
 });
 
@@ -892,7 +892,7 @@ test("custom error constructor", () => {
   } catch (err) {
     expect(err).toBeInstanceOf(MyError);
     expect(err.message).toMatchInlineSnapshot(
-      '"Expected value of type string, but received {}"'
+      '"Expected value of type string, but received {}"',
     );
   }
 });
@@ -901,79 +901,79 @@ test("type constructors throw errors when passed invalid args", () => {
   expect(() => {
     t.arrayOf(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyTypeValidator, but received 5"'
+    `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
     t.exactString(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received 5"'
+    `[TypeError: Expected value of type string, but received 5]`,
   );
 
   expect(() => {
     t.exactNumber({});
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type numberIncludingNanAndInfinities, but received {}"'
+    `[TypeError: Expected value of type numberIncludingNanAndInfinities, but received {}]`,
   );
 
   expect(() => {
     t.exactBigInt(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type bigint, but received 5"'
+    `[TypeError: Expected value of type bigint, but received 5]`,
   );
 
   expect(() => {
     t.exactSymbol(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type Symbol, but received 5"'
+    `[TypeError: Expected value of type Symbol, but received 5]`,
   );
 
   expect(() => {
     t.hasClassName(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received 5"'
+    `[TypeError: Expected value of type string, but received 5]`,
   );
 
   expect(() => {
     t.hasToStringTag(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received 5"'
+    `[TypeError: Expected value of type string, but received 5]`,
   );
 
   expect(() => {
     t.intersection(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+    `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
     t.and(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+    `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
     t.union(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+    `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
     t.or(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type arrayOf(anyTypeValidator), but received [5,6]"'
+    `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
     t.instanceOf(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received 5"'
+    `[TypeError: Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received 5]`,
   );
 
   expect(() => {
     t.instanceOf({});
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received {}"'
+    `[TypeError: Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received {}]`,
   );
 
   expect(() => {
@@ -987,76 +987,80 @@ test("type constructors throw errors when passed invalid args", () => {
   expect(() => {
     t.mapOf(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyTypeValidator, but received 5"'
+    `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
     t.setOf(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyTypeValidator, but received 5"'
+    `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
     t.maybe(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyTypeValidator, but received 5"'
+    `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
     t.objectWithProperties(5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyObject, but received 5"'
+    `[TypeError: Expected value of type anyObject, but received 5]`,
   );
 
   expect(() => {
     t.objectWithProperties(null);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyObject, but received null"'
+    `[TypeError: Expected value of type anyObject, but received null]`,
   );
 
   expect(() => {
     t.objectWithOnlyTheseProperties(null);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyObject, but received null"'
+    `[TypeError: Expected value of type anyObject, but received null]`,
   );
 
   expect(() => {
     t.mappingObjectOf(null, 5);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyTypeValidator, but received null"'
+    `[TypeError: Expected value of type anyTypeValidator, but received null]`,
   );
 
   expect(() => {
     t.partialObjectWithProperties(17);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type anyObject, but received 17"'
+    `[TypeError: Expected value of type anyObject, but received 17]`,
   );
 
   expect(() => {
     t.stringMatching(435);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type RegExp, but received 435"'
+    `[TypeError: Expected value of type RegExp, but received 435]`,
   );
 
   expect(() => {
     t.symbolFor(435);
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type string, but received 435"'
+    `[TypeError: Expected value of type string, but received 435]`,
   );
 
   expect(() => {
     t.tuple(1, 2, {});
   }).toThrowErrorMatchingInlineSnapshot(
-    '"Expected value of type arrayOf(anyTypeValidator), but received [1,2,{}]"'
+    `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [1,2,{}]]`,
   );
 });
 
 test("api functions throw errors when passed invalid type validators", () => {
   expect(() => {
     t.assertType(null, null);
-  }).toThrowErrorMatchingInlineSnapshot('"\'type\' argument passed into \'assertType\' was the wrong type. It should be a function, but it was: null"');
+  }).toThrowErrorMatchingInlineSnapshot(
+    `[TypeError: 'type' argument passed into 'assertType' was the wrong type. It should be a function, but it was: null]`,
+  );
 
   expect(() => {
     t.isOfType(null, null);
-  }).toThrowErrorMatchingInlineSnapshot('"\'type\' argument passed into \'isOfType\' was the wrong type. It should be a function, but it was: null"');
+  }).toThrowErrorMatchingInlineSnapshot(
+    `[TypeError: 'type' argument passed into 'isOfType' was the wrong type. It should be a function, but it was: null]`,
+  );
 });

@@ -37,7 +37,7 @@ export const arrayOfAny: TypeValidator<Array<any>> = (target): target is any =>
 setName(arrayOfAny, "arrayOfAny");
 
 export const arrayOfUnknown: TypeValidator<Array<unknown>> = (
-  target
+  target,
 ): target is any => arrayOfAny(target);
 setName(arrayOfUnknown, "arrayOfUnknown");
 
@@ -78,7 +78,7 @@ setName(undefined_, "undefined");
 export { undefined_ as undefined };
 
 export const nullish: TypeValidator<null | undefined> = (
-  target
+  target,
 ): target is null | undefined => target == null;
 setName(nullish, "nullish");
 
@@ -86,7 +86,7 @@ const void_ = nullish;
 export { void_ as void };
 
 export const numberIncludingNanAndInfinities: TypeValidator<number> = (
-  target
+  target,
 ): target is number => typeof target === "number";
 setName(numberIncludingNanAndInfinities, "numberIncludingNanAndInfinities");
 
@@ -113,7 +113,7 @@ setName(Infinity_, "Infinity");
 export { Infinity_ as Infinity };
 
 export const NegativeInfinity: TypeValidator<number> = (
-  target
+  target,
 ): target is number => target === -Infinity;
 setName(NegativeInfinity, "NegativeInfinity");
 
@@ -131,7 +131,7 @@ export const never: TypeValidator<never> = (_target): _target is never => false;
 setName(never, "never");
 
 export const anyFunction: TypeValidator<(...args: any) => any> = (
-  target
+  target,
 ): target is (...args: any) => any => typeof target === "function";
 setName(anyFunction, "anyFunction");
 
@@ -156,17 +156,17 @@ setName(true_, "true");
 export { true_ as true };
 
 export const falsy: TypeValidator<false | null | undefined | "" | 0> = (
-  target
+  target,
 ): target is false | null | undefined | "" | 0 => !Boolean(target);
 setName(falsy, "falsy");
 
 export const truthy = <T>(
-  target: T | false | null | undefined | "" | 0
+  target: T | false | null | undefined | "" | 0,
 ): target is T => Boolean(target);
 setName(truthy, "truthy");
 
 export const nonNullOrUndefined = <T>(
-  target: T | null | undefined
+  target: T | null | undefined,
 ): target is T => target != null;
 setName(nonNullOrUndefined, "nonNullOrUndefined");
 
@@ -198,7 +198,7 @@ setName(Date_, "Date");
 export { Date_ as Date };
 
 export const anyMap: TypeValidator<Map<any, any>> = (
-  target
+  target,
 ): target is Map<any, any> =>
   target instanceof Map ||
   (anyObject(target) &&
@@ -209,12 +209,12 @@ export const anyMap: TypeValidator<Map<any, any>> = (
 setName(anyMap, "anyMap");
 
 export const unknownMap: TypeValidator<Map<unknown, unknown>> = (
-  target
+  target,
 ): target is Map<unknown, unknown> => anyMap(target);
 setName(unknownMap, "unknownMap");
 
 export const map: TypeValidator<Map<unknown, unknown>> = (
-  target
+  target,
 ): target is Map<unknown, unknown> => anyMap(target);
 setName(map, "map");
 
@@ -230,19 +230,19 @@ export const anySet: TypeValidator<Set<any>> = (target): target is Set<any> =>
 setName(anySet, "anySet");
 
 export const unknownSet: TypeValidator<Set<unknown>> = (
-  target
+  target,
 ): target is Set<unknown> => anySet(target);
 setName(unknownSet, "unknownSet");
 
 export const set: TypeValidator<Set<unknown>> = (
-  target
+  target,
 ): target is Set<unknown> => anySet(target);
 setName(set, "set");
 
 export { set as Set };
 
 const ArrayBuffer_: TypeValidator<ArrayBuffer> = (
-  target
+  target,
 ): target is ArrayBuffer => {
   return target instanceof ArrayBuffer || isTagged(target, "ArrayBuffer");
 };
@@ -250,7 +250,7 @@ setName(ArrayBuffer_, "ArrayBuffer");
 export { ArrayBuffer_ as ArrayBuffer };
 
 const SharedArrayBuffer_: TypeValidator<SharedArrayBuffer> = (
-  target
+  target,
 ): target is SharedArrayBuffer => {
   return (
     target instanceof SharedArrayBuffer || isTagged(target, "SharedArrayBuffer")
@@ -276,7 +276,7 @@ const TypedArray_: TypeValidator<
   | Float32Array
   | Float64Array
 > = (
-  target
+  target,
 ): target is
   | Int8Array
   | Uint8Array
@@ -299,7 +299,7 @@ setName(Int8Array_, "Int8Array");
 export { Int8Array_ as Int8Array };
 
 const Uint8Array_: TypeValidator<Uint8Array> = (
-  target
+  target,
 ): target is Uint8Array => {
   return target instanceof Uint8Array || isTagged(target, "Uint8Array");
 };
@@ -307,7 +307,7 @@ setName(Uint8Array_, "Uint8Array");
 export { Uint8Array_ as Uint8Array };
 
 const Uint8ClampedArray_: TypeValidator<Uint8ClampedArray> = (
-  target
+  target,
 ): target is Uint8ClampedArray => {
   return (
     target instanceof Uint8ClampedArray || isTagged(target, "Uint8ClampedArray")
@@ -317,7 +317,7 @@ setName(Uint8ClampedArray_, "Uint8ClampedArray");
 export { Uint8ClampedArray_ as Uint8ClampedArray };
 
 const Int16Array_: TypeValidator<Int16Array> = (
-  target
+  target,
 ): target is Int16Array => {
   return target instanceof Int16Array || isTagged(target, "Int16Array");
 };
@@ -325,7 +325,7 @@ setName(Int16Array_, "Int16Array");
 export { Int16Array_ as Int16Array };
 
 const Uint16Array_: TypeValidator<Uint16Array> = (
-  target
+  target,
 ): target is Uint16Array => {
   return target instanceof Uint16Array || isTagged(target, "Uint16Array");
 };
@@ -333,7 +333,7 @@ setName(Uint16Array_, "Uint16Array");
 export { Uint16Array_ as Uint16Array };
 
 const Int32Array_: TypeValidator<Int32Array> = (
-  target
+  target,
 ): target is Int32Array => {
   return target instanceof Int32Array || isTagged(target, "Int32Array");
 };
@@ -341,7 +341,7 @@ setName(Int32Array_, "Int32Array");
 export { Int32Array_ as Int32Array };
 
 const Uint32Array_: TypeValidator<Uint32Array> = (
-  target
+  target,
 ): target is Uint32Array => {
   return target instanceof Uint32Array || isTagged(target, "Uint32Array");
 };
@@ -349,7 +349,7 @@ setName(Uint32Array_, "Uint32Array");
 export { Uint32Array_ as Uint32Array };
 
 const Float32Array_: TypeValidator<Float32Array> = (
-  target
+  target,
 ): target is Float32Array => {
   return target instanceof Float32Array || isTagged(target, "Float32Array");
 };
@@ -357,7 +357,7 @@ setName(Float32Array_, "Float32Array");
 export { Float32Array_ as Float32Array };
 
 const Float64Array_: TypeValidator<Float64Array> = (
-  target
+  target,
 ): target is Float64Array => {
   return target instanceof Float64Array || isTagged(target, "Float64Array");
 };
@@ -365,7 +365,7 @@ setName(Float64Array_, "Float64Array");
 export { Float64Array_ as Float64Array };
 
 const anyTypeValidator: TypeValidator<TypeValidator<any>> = (
-  target
+  target,
 ): target is TypeValidator<any> => {
   return typeof target === "function";
 };
@@ -373,7 +373,7 @@ setName(anyTypeValidator, "anyTypeValidator");
 export { anyTypeValidator };
 
 const unknownTypeValidator: TypeValidator<TypeValidator<unknown>> = (
-  target
+  target,
 ): target is TypeValidator<unknown> => {
   return typeof target === "function";
 };

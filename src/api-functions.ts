@@ -81,15 +81,15 @@ function _assertType<T>(
   type: TypeValidator<T>,
   messageMaker: (
     target: any,
-    expectedType: TypeValidator<any>
+    expectedType: TypeValidator<any>,
   ) => string = defaultMessageMaker,
-  ErrorConstructor: { new (message?: string): any } = TypeError
+  ErrorConstructor: { new (message?: string): any } = TypeError,
 ): asserts target is T {
   if (typeof type !== "function") {
     throw new TypeError(
       `'type' argument passed into 'assertType' was the wrong type. It should be a function, but it was: ${stringifyValue(
-        type
-      )}`
+        type,
+      )}`,
     );
   }
 
@@ -116,8 +116,8 @@ export function isOfType<T>(target: any, type: TypeValidator<T>): target is T {
   if (typeof type !== "function") {
     throw new TypeError(
       `'type' argument passed into 'isOfType' was the wrong type. It should be a function, but it was: ${stringifyValue(
-        type
-      )}`
+        type,
+      )}`,
     );
   }
 

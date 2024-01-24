@@ -7,13 +7,13 @@ export function objectStr(obj: { [key: string | number | symbol]: string }) {
   return `{ ${allEntries(obj)
     .map(
       ([key, value]) =>
-        `${typeof key === "string" ? key : `[${String(key)}]`}: ${value}`
+        `${typeof key === "string" ? key : `[${String(key)}]`}: ${value}`,
     )
     .join(", ")} }`;
 }
 
 export function arrayOf<T>(
-  typeValidator: TypeValidator<T>
+  typeValidator: TypeValidator<T>,
 ): TypeValidator<Array<T>> {
   assertType(typeValidator, basicTypes.anyTypeValidator);
 
@@ -61,7 +61,7 @@ export function exactSymbol<T extends symbol>(sym: T): TypeValidator<T> {
 }
 
 export function hasClassName<Name extends string>(
-  name: Name
+  name: Name,
 ): TypeValidator<{ constructor: Function & { name: Name } }> {
   assertType(name, basicTypes.string);
 
@@ -89,20 +89,20 @@ export function hasToStringTag(name: string): TypeValidator<any> {
 export interface IntersectionFn {
   <FirstType, SecondType>(
     first: TypeValidator<FirstType>,
-    second: TypeValidator<SecondType>
+    second: TypeValidator<SecondType>,
   ): TypeValidator<FirstType & SecondType>;
 
   <FirstType, SecondType, ThirdType>(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
-    third: TypeValidator<ThirdType>
+    third: TypeValidator<ThirdType>,
   ): TypeValidator<FirstType & SecondType & ThirdType>;
 
   <FirstType, SecondType, ThirdType, FourthType>(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
     third: TypeValidator<ThirdType>,
-    fourth: TypeValidator<FourthType>
+    fourth: TypeValidator<FourthType>,
   ): TypeValidator<FirstType & SecondType & ThirdType & FourthType>;
 
   <FirstType, SecondType, ThirdType, FourthType, FifthType>(
@@ -110,7 +110,7 @@ export interface IntersectionFn {
     second: TypeValidator<SecondType>,
     third: TypeValidator<ThirdType>,
     fourth: TypeValidator<FourthType>,
-    fifth: TypeValidator<FifthType>
+    fifth: TypeValidator<FifthType>,
   ): TypeValidator<FirstType & SecondType & ThirdType & FourthType & FifthType>;
 
   <FirstType, SecondType, ThirdType, FourthType, FifthType, SixthType>(
@@ -119,7 +119,7 @@ export interface IntersectionFn {
     third: TypeValidator<ThirdType>,
     fourth: TypeValidator<FourthType>,
     fifth: TypeValidator<FifthType>,
-    sixth: TypeValidator<SixthType>
+    sixth: TypeValidator<SixthType>,
   ): TypeValidator<
     FirstType & SecondType & ThirdType & FourthType & FifthType & SixthType
   >;
@@ -131,7 +131,7 @@ export interface IntersectionFn {
     FourthType,
     FifthType,
     SixthType,
-    SeventhType
+    SeventhType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -139,7 +139,7 @@ export interface IntersectionFn {
     fourth: TypeValidator<FourthType>,
     fifth: TypeValidator<FifthType>,
     sixth: TypeValidator<SixthType>,
-    seventh: TypeValidator<SeventhType>
+    seventh: TypeValidator<SeventhType>,
   ): TypeValidator<
     FirstType &
       SecondType &
@@ -158,7 +158,7 @@ export interface IntersectionFn {
     FifthType,
     SixthType,
     SeventhType,
-    EighthType
+    EighthType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -167,7 +167,7 @@ export interface IntersectionFn {
     fifth: TypeValidator<FifthType>,
     sixth: TypeValidator<SixthType>,
     seventh: TypeValidator<SeventhType>,
-    eighth: TypeValidator<EighthType>
+    eighth: TypeValidator<EighthType>,
   ): TypeValidator<
     FirstType &
       SecondType &
@@ -188,7 +188,7 @@ export interface IntersectionFn {
     SixthType,
     SeventhType,
     EighthType,
-    NinthType
+    NinthType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -198,7 +198,7 @@ export interface IntersectionFn {
     sixth: TypeValidator<SixthType>,
     seventh: TypeValidator<SeventhType>,
     eighth: TypeValidator<EighthType>,
-    ninth: TypeValidator<NinthType>
+    ninth: TypeValidator<NinthType>,
   ): TypeValidator<
     FirstType &
       SecondType &
@@ -221,7 +221,7 @@ export interface IntersectionFn {
     SeventhType,
     EighthType,
     NinthType,
-    TenthType
+    TenthType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -232,7 +232,7 @@ export interface IntersectionFn {
     seventh: TypeValidator<SeventhType>,
     eighth: TypeValidator<EighthType>,
     ninth: TypeValidator<NinthType>,
-    tenth: TypeValidator<TenthType>
+    tenth: TypeValidator<TenthType>,
   ): TypeValidator<
     FirstType &
       SecondType &
@@ -265,20 +265,20 @@ export const and = intersection;
 export interface UnionFn {
   <FirstType, SecondType>(
     first: TypeValidator<FirstType>,
-    second: TypeValidator<SecondType>
+    second: TypeValidator<SecondType>,
   ): TypeValidator<FirstType | SecondType>;
 
   <FirstType, SecondType, ThirdType>(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
-    third: TypeValidator<ThirdType>
+    third: TypeValidator<ThirdType>,
   ): TypeValidator<FirstType | SecondType | ThirdType>;
 
   <FirstType, SecondType, ThirdType, FourthType>(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
     third: TypeValidator<ThirdType>,
-    fourth: TypeValidator<FourthType>
+    fourth: TypeValidator<FourthType>,
   ): TypeValidator<FirstType | SecondType | ThirdType | FourthType>;
 
   <FirstType, SecondType, ThirdType, FourthType, FifthType>(
@@ -286,7 +286,7 @@ export interface UnionFn {
     second: TypeValidator<SecondType>,
     third: TypeValidator<ThirdType>,
     fourth: TypeValidator<FourthType>,
-    fifth: TypeValidator<FifthType>
+    fifth: TypeValidator<FifthType>,
   ): TypeValidator<FirstType | SecondType | ThirdType | FourthType | FifthType>;
 
   <FirstType, SecondType, ThirdType, FourthType, FifthType, SixthType>(
@@ -295,7 +295,7 @@ export interface UnionFn {
     third: TypeValidator<ThirdType>,
     fourth: TypeValidator<FourthType>,
     fifth: TypeValidator<FifthType>,
-    sixth: TypeValidator<SixthType>
+    sixth: TypeValidator<SixthType>,
   ): TypeValidator<
     FirstType | SecondType | ThirdType | FourthType | FifthType | SixthType
   >;
@@ -307,7 +307,7 @@ export interface UnionFn {
     FourthType,
     FifthType,
     SixthType,
-    SeventhType
+    SeventhType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -315,7 +315,7 @@ export interface UnionFn {
     fourth: TypeValidator<FourthType>,
     fifth: TypeValidator<FifthType>,
     sixth: TypeValidator<SixthType>,
-    seventh: TypeValidator<SeventhType>
+    seventh: TypeValidator<SeventhType>,
   ): TypeValidator<
     | FirstType
     | SecondType
@@ -334,7 +334,7 @@ export interface UnionFn {
     FifthType,
     SixthType,
     SeventhType,
-    EighthType
+    EighthType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -343,7 +343,7 @@ export interface UnionFn {
     fifth: TypeValidator<FifthType>,
     sixth: TypeValidator<SixthType>,
     seventh: TypeValidator<SeventhType>,
-    eighth: TypeValidator<EighthType>
+    eighth: TypeValidator<EighthType>,
   ): TypeValidator<
     | FirstType
     | SecondType
@@ -364,7 +364,7 @@ export interface UnionFn {
     SixthType,
     SeventhType,
     EighthType,
-    NinthType
+    NinthType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -374,7 +374,7 @@ export interface UnionFn {
     sixth: TypeValidator<SixthType>,
     seventh: TypeValidator<SeventhType>,
     eighth: TypeValidator<EighthType>,
-    ninth: TypeValidator<NinthType>
+    ninth: TypeValidator<NinthType>,
   ): TypeValidator<
     | FirstType
     | SecondType
@@ -397,7 +397,7 @@ export interface UnionFn {
     SeventhType,
     EighthType,
     NinthType,
-    TenthType
+    TenthType,
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -408,7 +408,7 @@ export interface UnionFn {
     seventh: TypeValidator<SeventhType>,
     eighth: TypeValidator<EighthType>,
     ninth: TypeValidator<NinthType>,
-    tenth: TypeValidator<TenthType>
+    tenth: TypeValidator<TenthType>,
   ): TypeValidator<
     | FirstType
     | SecondType
@@ -438,14 +438,14 @@ let thingThatCanHaveInstance: TypeValidator<any>;
 if (typeof Symbol !== "undefined" && typeof Symbol.hasInstance === "symbol") {
   thingThatCanHaveInstance = or(
     basicTypes.anyFunction,
-    objectWithProperties({ [Symbol.hasInstance]: basicTypes.anyFunction })
+    objectWithProperties({ [Symbol.hasInstance]: basicTypes.anyFunction }),
   );
 } else {
   thingThatCanHaveInstance = basicTypes.anyFunction;
 }
 
 export function instanceOf<Klass extends Function & { prototype: any }>(
-  klass: Klass
+  klass: Klass,
 ): TypeValidator<Klass["prototype"]> {
   assertType(klass, thingThatCanHaveInstance);
 
@@ -457,7 +457,7 @@ export function instanceOf<Klass extends Function & { prototype: any }>(
 
 export function mapOf<K, V>(
   keyType: TypeValidator<K>,
-  valueType: TypeValidator<V>
+  valueType: TypeValidator<V>,
 ): TypeValidator<Map<K, V>> {
   assertType(keyType, basicTypes.anyTypeValidator);
   assertType(valueType, basicTypes.anyTypeValidator);
@@ -488,7 +488,7 @@ export function setOf<T>(itemType: TypeValidator<T>): TypeValidator<Set<T>> {
 }
 
 export function maybe<T>(
-  itemType: TypeValidator<T>
+  itemType: TypeValidator<T>,
 ): TypeValidator<T | undefined | null> {
   assertType(itemType, basicTypes.anyTypeValidator);
 
@@ -501,7 +501,7 @@ export function maybe<T>(
 }
 
 export function optional<T>(
-  itemType: TypeValidator<T>
+  itemType: TypeValidator<T>,
 ): TypeValidator<T | undefined> {
   assertType(itemType, basicTypes.anyTypeValidator);
 
@@ -514,9 +514,9 @@ export function optional<T>(
 }
 
 export function objectWithProperties<
-  T extends { [key: string | number | symbol]: TypeValidator<any> }
+  T extends { [key: string | number | symbol]: TypeValidator<any> },
 >(
-  properties: T
+  properties: T,
 ): TypeValidator<{
   [key in keyof T]: T[key] extends TypeValidator<infer U> ? U : never;
 }> {
@@ -531,7 +531,7 @@ export function objectWithProperties<
   const propEntries = allEntries(properties);
 
   const ret = (
-    target
+    target,
   ): target is {
     [key in keyof T]: T[key] extends TypeValidator<infer U> ? U : never;
   } => {
@@ -544,8 +544,8 @@ export function objectWithProperties<
   setName(
     ret,
     `objectWithProperties(${objectStr(
-      Object.fromEntries(propEntries.map(([key, value]) => [key, value.name]))
-    )})`
+      Object.fromEntries(propEntries.map(([key, value]) => [key, value.name])),
+    )})`,
   );
 
   // We do this instead of just `ret._inner = properties` so mutations on the
@@ -556,9 +556,9 @@ export function objectWithProperties<
 }
 
 export function objectWithOnlyTheseProperties<
-  T extends { [key: string | number | symbol]: TypeValidator<any> }
+  T extends { [key: string | number | symbol]: TypeValidator<any> },
 >(
-  properties: T
+  properties: T,
 ): TypeValidator<{
   [key in keyof T]: T[key] extends TypeValidator<infer U> ? U : never;
 }> {
@@ -574,7 +574,7 @@ export function objectWithOnlyTheseProperties<
   const propKeysSet = new Set(Reflect.ownKeys(properties));
 
   const ret = (
-    target
+    target,
   ): target is {
     [key in keyof T]: T[key] extends TypeValidator<infer U> ? U : never;
   } => {
@@ -587,7 +587,7 @@ export function objectWithOnlyTheseProperties<
     return (
       targetEntries.length === propEntries.length &&
       targetEntries.every(([key, _value]) =>
-        propKeysSet.has(typeof key === "number" ? String(key) : key)
+        propKeysSet.has(typeof key === "number" ? String(key) : key),
       )
     );
   };
@@ -595,8 +595,8 @@ export function objectWithOnlyTheseProperties<
   setName(
     ret,
     `objectWithOnlyTheseProperties(${objectStr(
-      Object.fromEntries(propEntries.map(([key, value]) => [key, value.name]))
-    )})`
+      Object.fromEntries(propEntries.map(([key, value]) => [key, value.name])),
+    )})`,
   );
 
   // We do this instead of just `ret._inner = properties` so mutations on the
@@ -608,10 +608,10 @@ export function objectWithOnlyTheseProperties<
 
 export function mappingObjectOf<
   Values,
-  Keys extends string | number | symbol = string | number | symbol
+  Keys extends string | number | symbol = string | number | symbol,
 >(
   keyType: TypeValidator<Keys>,
-  valueType: TypeValidator<Values>
+  valueType: TypeValidator<Values>,
 ): TypeValidator<Record<Keys, Values>> {
   assertType(keyType, basicTypes.anyTypeValidator);
   assertType(valueType, basicTypes.anyTypeValidator);
@@ -619,7 +619,7 @@ export function mappingObjectOf<
   const ret = (target): target is Record<Keys, Values> =>
     basicTypes.anyObject(target) &&
     allEntries(target).every(
-      ([key, value]) => keyType(key) && valueType(value)
+      ([key, value]) => keyType(key) && valueType(value),
     );
   setName(ret, `mappingObjectOf(${keyType.name}, ${valueType.name})`);
   ret._inner = [keyType, valueType];
@@ -629,9 +629,9 @@ export function mappingObjectOf<
 export const record = mappingObjectOf;
 
 export function partialObjectWithProperties<
-  T extends { [key: string | number | symbol]: TypeValidator<any> }
+  T extends { [key: string | number | symbol]: TypeValidator<any> },
 >(
-  properties: T
+  properties: T,
 ): TypeValidator<{
   [key in keyof T]: T[key] extends TypeValidator<infer U>
     ? U | null | undefined
@@ -648,7 +648,7 @@ export function partialObjectWithProperties<
   const propEntries = allEntries(properties);
 
   const ret = (
-    target
+    target,
   ): target is {
     [key in keyof T]: T[key] extends TypeValidator<infer U>
       ? U | null | undefined
@@ -657,7 +657,7 @@ export function partialObjectWithProperties<
     return (
       basicTypes.anyObject(target) &&
       propEntries.every(
-        ([name, validator]) => target[name] == null || validator(target[name])
+        ([name, validator]) => target[name] == null || validator(target[name]),
       )
     );
   };
@@ -669,9 +669,9 @@ export function partialObjectWithProperties<
         propEntries.map(([key, value]) => [
           key,
           `union(${value.name}, null, undefined)`,
-        ])
-      )
-    )})`
+        ]),
+      ),
+    )})`,
   );
 
   // We do this instead of just `ret._inner = properties` so mutations on the
@@ -706,20 +706,20 @@ export function symbolFor(key: string): TypeValidator<symbol> {
 export interface TupleFn {
   <FirstType, SecondType>(
     first: TypeValidator<FirstType>,
-    second: TypeValidator<SecondType>
+    second: TypeValidator<SecondType>,
   ): TypeValidator<[FirstType, SecondType]>;
 
   <FirstType, SecondType, ThirdType>(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
-    third: TypeValidator<ThirdType>
+    third: TypeValidator<ThirdType>,
   ): TypeValidator<[FirstType, SecondType, ThirdType]>;
 
   <FirstType, SecondType, ThirdType, FourthType>(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
     third: TypeValidator<ThirdType>,
-    fourth: TypeValidator<FourthType>
+    fourth: TypeValidator<FourthType>,
   ): TypeValidator<[FirstType, SecondType, ThirdType, FourthType]>;
 
   <FirstType, SecondType, ThirdType, FourthType, FifthType>(
@@ -727,7 +727,7 @@ export interface TupleFn {
     second: TypeValidator<SecondType>,
     third: TypeValidator<ThirdType>,
     fourth: TypeValidator<FourthType>,
-    fifth: TypeValidator<FifthType>
+    fifth: TypeValidator<FifthType>,
   ): TypeValidator<[FirstType, SecondType, ThirdType, FourthType, FifthType]>;
 
   <FirstType, SecondType, ThirdType, FourthType, FifthType, SixthType>(
@@ -736,7 +736,7 @@ export interface TupleFn {
     third: TypeValidator<ThirdType>,
     fourth: TypeValidator<FourthType>,
     fifth: TypeValidator<FifthType>,
-    sixth: TypeValidator<SixthType>
+    sixth: TypeValidator<SixthType>,
   ): TypeValidator<
     [FirstType, SecondType, ThirdType, FourthType, FifthType, SixthType]
   >;
@@ -748,36 +748,7 @@ export interface TupleFn {
     FourthType,
     FifthType,
     SixthType,
-    SeventhType
-  >(
-    first: TypeValidator<FirstType>,
-    second: TypeValidator<SecondType>,
-    third: TypeValidator<ThirdType>,
-    fourth: TypeValidator<FourthType>,
-    fifth: TypeValidator<FifthType>,
-    sixth: TypeValidator<SixthType>,
-    seventh: TypeValidator<SeventhType>
-  ): TypeValidator<
-    [
-      FirstType,
-      SecondType,
-      ThirdType,
-      FourthType,
-      FifthType,
-      SixthType,
-      SeventhType
-    ]
-  >;
-
-  <
-    FirstType,
-    SecondType,
-    ThirdType,
-    FourthType,
-    FifthType,
-    SixthType,
     SeventhType,
-    EighthType
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -786,7 +757,6 @@ export interface TupleFn {
     fifth: TypeValidator<FifthType>,
     sixth: TypeValidator<SixthType>,
     seventh: TypeValidator<SeventhType>,
-    eighth: TypeValidator<EighthType>
   ): TypeValidator<
     [
       FirstType,
@@ -796,7 +766,6 @@ export interface TupleFn {
       FifthType,
       SixthType,
       SeventhType,
-      EighthType
     ]
   >;
 
@@ -809,7 +778,6 @@ export interface TupleFn {
     SixthType,
     SeventhType,
     EighthType,
-    NinthType
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -819,7 +787,6 @@ export interface TupleFn {
     sixth: TypeValidator<SixthType>,
     seventh: TypeValidator<SeventhType>,
     eighth: TypeValidator<EighthType>,
-    ninth: TypeValidator<NinthType>
   ): TypeValidator<
     [
       FirstType,
@@ -830,7 +797,6 @@ export interface TupleFn {
       SixthType,
       SeventhType,
       EighthType,
-      NinthType
     ]
   >;
 
@@ -844,7 +810,6 @@ export interface TupleFn {
     SeventhType,
     EighthType,
     NinthType,
-    TenthType
   >(
     first: TypeValidator<FirstType>,
     second: TypeValidator<SecondType>,
@@ -855,7 +820,6 @@ export interface TupleFn {
     seventh: TypeValidator<SeventhType>,
     eighth: TypeValidator<EighthType>,
     ninth: TypeValidator<NinthType>,
-    tenth: TypeValidator<TenthType>
   ): TypeValidator<
     [
       FirstType,
@@ -867,7 +831,43 @@ export interface TupleFn {
       SeventhType,
       EighthType,
       NinthType,
-      TenthType
+    ]
+  >;
+
+  <
+    FirstType,
+    SecondType,
+    ThirdType,
+    FourthType,
+    FifthType,
+    SixthType,
+    SeventhType,
+    EighthType,
+    NinthType,
+    TenthType,
+  >(
+    first: TypeValidator<FirstType>,
+    second: TypeValidator<SecondType>,
+    third: TypeValidator<ThirdType>,
+    fourth: TypeValidator<FourthType>,
+    fifth: TypeValidator<FifthType>,
+    sixth: TypeValidator<SixthType>,
+    seventh: TypeValidator<SeventhType>,
+    eighth: TypeValidator<EighthType>,
+    ninth: TypeValidator<NinthType>,
+    tenth: TypeValidator<TenthType>,
+  ): TypeValidator<
+    [
+      FirstType,
+      SecondType,
+      ThirdType,
+      FourthType,
+      FifthType,
+      SixthType,
+      SeventhType,
+      EighthType,
+      NinthType,
+      TenthType,
     ]
   >;
 }
