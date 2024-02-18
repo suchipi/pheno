@@ -1,6 +1,6 @@
 {
   "name": "pheno",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Simple, lightweight at-runtime type checking functions, with full TypeScript support",
   "main": "dist/bundle.js",
   "types": "dist/index.d.ts",
