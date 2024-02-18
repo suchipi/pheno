@@ -942,3 +942,78 @@ namespace CoercingTypeConstructors {
 
 export const $CoercingTypeConstructors: typeof CoercingTypeConstructors =
   _coercingTypeConstructors as any;
+
+export namespace $CoercingApiFunctions {
+  export const stringifyValue = t.stringifyValue;
+
+  const defaultMessageMaker = t.assertType.defaultMessageMaker;
+
+  function _assertType<T extends TypeValidator<any> | Coerceable>(
+    target: any,
+    type: T,
+    messageMaker: (
+      target: any,
+      expectedType: TypeValidator<any>,
+    ) => string = defaultMessageMaker,
+    ErrorConstructor: { new (message?: string): any } = TypeError,
+  ): asserts target is Unwrap<T> {
+    t.assertType(target, coerce(type), messageMaker, ErrorConstructor);
+  }
+
+  Object.defineProperties(_assertType, {
+    name: { value: "assertType", configurable: true },
+    defaultMessageMaker: {
+      get() {
+        return defaultMessageMaker;
+      },
+    },
+  });
+
+  export const assertType: {
+    readonly defaultMessageMaker: typeof defaultMessageMaker;
+  } & typeof _assertType = _assertType as any;
+
+  export function isOfType<T extends TypeValidator<any> | Coerceable>(
+    target: any,
+    type: T,
+  ): target is Unwrap<T> {
+    return t.isOfType(target, coerce(type));
+  }
+
+  const any: any = null;
+  export function asType<T extends TypeValidator<any> | Coerceable>(
+    target: unknown,
+    type: T = any,
+  ): Unwrap<T> {
+    return target as any;
+  }
+}
+
+// we re-export all the API functions at the top level, primarily because
+// TypeScript requires explicit annotations on assertion functions, and using
+// `typeof` on `assertType` loses the generic bound, which makes it useless as
+// it turns everything into `any`.
+
+export const stringifyValue = $CoercingApiFunctions.stringifyValue;
+
+export const assertType: {
+  readonly defaultMessageMaker: (
+    target: any,
+    expectedType: TypeValidator<any>,
+  ) => string;
+} & (<T extends TypeValidator<any> | Coerceable>(
+  target: any,
+  type: T,
+  messageMaker?: (target: any, expectedType: TypeValidator<any>) => string,
+  ErrorConstructor?: { new (message?: string): any },
+) => asserts target is Unwrap<T>) = $CoercingApiFunctions.assertType;
+
+export const isOfType: <T extends TypeValidator<any> | Coerceable>(
+  target: any,
+  type: T,
+) => target is Unwrap<T> = $CoercingApiFunctions.isOfType;
+
+export const asType: <T extends TypeValidator<any> | Coerceable>(
+  target: unknown,
+  type?: T,
+) => Unwrap<T> = $CoercingApiFunctions.asType;

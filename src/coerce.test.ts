@@ -1,6 +1,11 @@
-import { test, expect } from "vitest";
-import * as t from "../dist/bundle.min";
-import coerce from "../coerce";
+import { describe, test, expect } from "vitest";
+import * as _t from "../dist/bundle.min";
+import coerce, {
+  $CoercingApiFunctions,
+  assertType as coerce_assertType,
+} from "../coerce";
+
+const t: typeof import("..") = _t as any;
 
 test("coercion", () => {
   const validators = [
@@ -114,4 +119,55 @@ test("coercion", () => {
       "NegativeInfinity",
     ]
   `);
+});
+
+describe("$CoercingApiFunctions", () => {
+  const { stringifyValue, isOfType, asType } = $CoercingApiFunctions;
+
+  test("stringifyValue", () => {
+    // same as normal api function
+    expect(stringifyValue({ hi: "yeah" })).toBe(
+      t.stringifyValue({ hi: "yeah" }),
+    );
+  });
+
+  test("assertType", () => {
+    // with type validator
+    expect(() => {
+      const thing: unknown = "blah";
+      coerce_assertType(thing, t.string);
+      thing; // hover type here should be `string`
+    }).not.toThrowError();
+    expect(() => {
+      const thing: unknown = "blah";
+      coerce_assertType(thing, t.number);
+      thing; // hover type here should be `number`
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: Expected value of type number, but received "blah"]`,
+    );
+
+    // with coercion
+    expect(() => {
+      const thing: unknown = "blah";
+      coerce_assertType(thing, String);
+      thing; // hover type here should be `string`
+    }).not.toThrowError();
+    expect(() => {
+      const thing: unknown = "blah";
+      coerce_assertType(thing, Number);
+      thing; // hover type here should be `number`
+    }).toThrowErrorMatchingInlineSnapshot(
+      `[TypeError: Expected value of type number, but received "blah"]`,
+    );
+  });
+
+  test("isOfType", () => {
+    expect(isOfType("hi", t.string)).toBe(true);
+    expect(isOfType("hi", String)).toBe(true);
+  });
+
+  test("asType", () => {
+    expect(asType("hi", t.number)).toBe("hi");
+    expect(asType("hi", Number)).toBe("hi");
+  });
 });
