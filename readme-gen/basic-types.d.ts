@@ -122,18 +122,15 @@ export const String: TypeValidator<string>;
 
 /**
  * {@link TypeValidator} which returns true for the value `null`.
- *
- * Note: Exported as `pheno.null`, not `pheno.null_`.
  */
 declare const null_: TypeValidator<null>;
 export { null_ as null };
 
 /**
  * {@link TypeValidator} which returns true for the value `undefined`.
- *
- * Note: Exported as `pheno.undefined`, not `pheno.undefined_`.
  */
 declare const undefined_: TypeValidator<undefined>;
+export { undefined_ as undefined };
 
 /**
  * {@link TypeValidator} which returns true for the values `undefined` and `null`.
@@ -145,11 +142,10 @@ export const nullish: TypeValidator<null | undefined>;
 /**
  * {@link TypeValidator} which returns true for the values `undefined` and `null`.
  *
- * Note: Exported as `pheno.void`, not `pheno.void_`.
- *
  * Synonyms: {@link nullish}
  */
 declare const void_: TypeValidator<null | undefined>;
+export { void_ as void };
 
 /**
  * {@link TypeValidator} which returns true for any value for which `typeof x
@@ -240,17 +236,15 @@ export const Function: TypeValidator<(...args: Array<unknown>) => unknown>;
 
 /**
  * {@link TypeValidator} which returns true for the value `false`.
- *
- * Note: Exported as `pheno.false`, not `pheno.false_`.
  */
 declare const false_: TypeValidator<false>;
+export { false_ as false };
 
 /**
  * {@link TypeValidator} which returns true for the value `true`.
- *
- * Note: Exported as `pheno.true`, not `pheno.true_`.
  */
 declare const true_: TypeValidator<true>;
+export { true_ as true };
 
 /**
  * {@link TypeValidator} which returns true for any value which becomes false

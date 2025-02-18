@@ -404,21 +404,17 @@ Synonyms: [string](#)
 const String: TypeValidator<string>;
 ```
 
-#### null\_ (value)
+#### null (exported value)
 
 [TypeValidator](#typevalidator-exported-type) which returns true for the value `null`.
-
-Note: Exported as `pheno.null`, not `pheno.null_`.
 
 ```ts
 const null_: TypeValidator<null>;
 ```
 
-#### undefined\_ (value)
+#### undefined (exported value)
 
 [TypeValidator](#typevalidator-exported-type) which returns true for the value `undefined`.
-
-Note: Exported as `pheno.undefined`, not `pheno.undefined_`.
 
 ```ts
 const undefined_: TypeValidator<undefined>;
@@ -434,11 +430,9 @@ Synonyms: [void](#)
 const nullish: TypeValidator<null | undefined>;
 ```
 
-#### void\_ (value)
+#### void (exported value)
 
 [TypeValidator](#typevalidator-exported-type) which returns true for the values `undefined` and `null`.
-
-Note: Exported as `pheno.void`, not `pheno.void_`.
 
 Synonyms: [nullish](#)
 
@@ -570,21 +564,17 @@ Synonyms: [unknownFunction](#)
 const Function: TypeValidator<(...args: Array<unknown>) => unknown>;
 ```
 
-#### false\_ (value)
+#### false (exported value)
 
 [TypeValidator](#typevalidator-exported-type) which returns true for the value `false`.
-
-Note: Exported as `pheno.false`, not `pheno.false_`.
 
 ```ts
 const false_: TypeValidator<false>;
 ```
 
-#### true\_ (value)
+#### true (exported value)
 
 [TypeValidator](#typevalidator-exported-type) which returns true for the value `true`.
-
-Note: Exported as `pheno.true`, not `pheno.true_`.
 
 ```ts
 const true_: TypeValidator<true>;
