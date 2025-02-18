@@ -15,4 +15,7 @@ $DTSMD typescript-types.d.ts >> "$TARGET_FILE"
 echo "### API Functions" >> "$TARGET_FILE"
 $DTSMD api-functions.d.ts >> "$TARGET_FILE"
 
+echo "### TypeValidators for Basic Types" >> "$TARGET_FILE"
+$DTSMD basic-types.d.ts >> "$TARGET_FILE"
+
 npx prettier --write "$TARGET_FILE"

@@ -233,3 +233,645 @@ uses this function.
 ```ts
 function stringifyValue(value: any): void;
 ```
+
+### TypeValidators for Basic Types
+
+#### any (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which always returns true.
+
+Analogous to TypeScript's `any` type.
+
+Synonyms: [unknown](#)
+
+```ts
+const any: TypeValidator<any>;
+```
+
+#### unknown (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which always returns true.
+
+Analogous to TypeScript's `unknown` type.
+
+Synonyms: [any](#)
+
+```ts
+const unknown: TypeValidator<unknown>;
+```
+
+#### anyObject (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS object.
+
+Synonyms: [unknownObject](#), [object](#), [Object](#)
+
+```ts
+const anyObject: TypeValidator<{
+  [key: string | number | symbol]: any;
+}>;
+```
+
+#### unknownObject (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS object.
+
+Synonyms: [anyObject](#), [object](#), [Object](#)
+
+```ts
+const unknownObject: TypeValidator<{}>;
+```
+
+#### object (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS object.
+
+Synonyms: [anyObject](#), [unknownObject](#), [Object](#)
+
+```ts
+const object: TypeValidator<{}>;
+```
+
+#### Object (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS object.
+
+Synonyms: [anyObject](#), [unknownObject](#), [object](#)
+
+```ts
+const Object: TypeValidator<{}>;
+```
+
+#### objectOrNull (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS object, or null.
+
+This is designed to resemble `typeof x === "object"`.
+
+```ts
+const objectOrNull: TypeValidator<{
+  [key: string | number | symbol]: any;
+} | null>;
+```
+
+#### arrayOfAny (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS Array.
+
+Synonyms: [anyArray](#)
+
+```ts
+const arrayOfAny: TypeValidator<Array<any>>;
+```
+
+#### arrayOfUnknown (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS Array.
+
+Synonyms: [array](#), [Array](#)
+
+```ts
+const arrayOfUnknown: TypeValidator<Array<unknown>>;
+```
+
+#### array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS Array.
+
+Synonyms: [arrayOfUnknown](#), [Array](#)
+
+```ts
+const array: TypeValidator<Array<unknown>>;
+```
+
+#### Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS Array.
+
+Synonyms: [arrayOfUnknown](#), [Array](#)
+
+```ts
+const Array: TypeValidator<Array<unknown>>;
+```
+
+#### anyArray (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any JS Array.
+
+Synonyms: [arrayOfAny](#)
+
+```ts
+const anyArray: TypeValidator<Array<any>>;
+```
+
+#### boolean (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any boolean (true or false).
+
+Synonyms: [Boolean](#)
+
+```ts
+const boolean: TypeValidator<boolean>;
+```
+
+#### Boolean (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any boolean (true or false).
+
+Synonyms: [boolean](#)
+
+```ts
+const Boolean: TypeValidator<boolean>;
+```
+
+#### string (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any string.
+
+Synonyms: [String](#)
+
+```ts
+const string: TypeValidator<string>;
+```
+
+#### String (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any string.
+
+Synonyms: [string](#)
+
+```ts
+const String: TypeValidator<string>;
+```
+
+#### null\_ (value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the value `null`.
+
+Note: Exported as `pheno.null`, not `pheno.null_`.
+
+```ts
+const null_: TypeValidator<null>;
+```
+
+#### undefined\_ (value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the value `undefined`.
+
+Note: Exported as `pheno.undefined`, not `pheno.undefined_`.
+
+```ts
+const undefined_: TypeValidator<undefined>;
+```
+
+#### nullish (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the values `undefined` and `null`.
+
+Synonyms: [void](#)
+
+```ts
+const nullish: TypeValidator<null | undefined>;
+```
+
+#### void\_ (value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the values `undefined` and `null`.
+
+Note: Exported as `pheno.void`, not `pheno.void_`.
+
+Synonyms: [nullish](#)
+
+```ts
+const void_: TypeValidator<null | undefined>;
+```
+
+#### numberIncludingNanAndInfinities (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value for which `typeof x
+=== "number"`, including NaN, Infinity, and -Infinity.
+
+```ts
+const numberIncludingNanAndInfinities: TypeValidator<number>;
+```
+
+#### number (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any number, excluding NaN,
+Infinity, and -Infinity.
+
+Synonyms: [Number](#)
+
+```ts
+const number: TypeValidator<number>;
+```
+
+#### Number (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any number, excluding NaN,
+Infinity, and -Infinity.
+
+Synonyms: [number](#)
+
+```ts
+const Number: TypeValidator<number>;
+```
+
+#### NaN (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for not-a-number (NaN) values, using
+the `Number.isNaN` algorithm.
+
+```ts
+const NaN: TypeValidator<number>;
+```
+
+#### Infinity (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the number `Infinity` (positive infinity).
+
+```ts
+const Infinity: TypeValidator<number>;
+```
+
+#### NegativeInfinity (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the number `-Infinity` (negative infinity).
+
+```ts
+const NegativeInfinity: TypeValidator<number>;
+```
+
+#### integer (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for whole numbers (numbers with
+nothing after the decimal point).
+
+```ts
+const integer: TypeValidator<number>;
+```
+
+#### bigint (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for BigInt values.
+
+Synonyms: [BigInt](#)
+
+```ts
+const bigint: TypeValidator<bigint>;
+```
+
+#### BigInt (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for BigInt values.
+
+Synonyms: [bigint](#)
+
+```ts
+const BigInt: TypeValidator<bigint>;
+```
+
+#### never (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which never returns true. Always returns false.
+
+```ts
+const never: TypeValidator<never>;
+```
+
+#### anyFunction (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value for which `typeof x
+=== "function"`, ie. functions, classes, and callable exotic objects.
+
+```ts
+const anyFunction: TypeValidator<(...args: any) => any>;
+```
+
+#### unknownFunction (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value for which `typeof x
+=== "function"`, ie. functions, classes, and callable exotic objects.
+
+Synonyms: [Function](#)
+
+```ts
+const unknownFunction: TypeValidator<(...args: Array<unknown>) => unknown>;
+```
+
+#### Function (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value for which `typeof x
+=== "function"`, ie. functions, classes, and callable exotic objects.
+
+Synonyms: [unknownFunction](#)
+
+```ts
+const Function: TypeValidator<(...args: Array<unknown>) => unknown>;
+```
+
+#### false\_ (value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the value `false`.
+
+Note: Exported as `pheno.false`, not `pheno.false_`.
+
+```ts
+const false_: TypeValidator<false>;
+```
+
+#### true\_ (value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for the value `true`.
+
+Note: Exported as `pheno.true`, not `pheno.true_`.
+
+```ts
+const true_: TypeValidator<true>;
+```
+
+#### falsy (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value which becomes false
+when coerced to a boolean: false, null, undefined, the empty string (""), or 0.
+
+```ts
+const falsy: TypeValidator<false | null | undefined | "" | 0>;
+```
+
+#### truthy (exported function)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value which becomes true
+when coerced to a boolean.
+
+```ts
+const truthy: {
+  <T>(target: T | false | null | undefined | "" | 0): target is T;
+};
+```
+
+##### truthy(...) (call signature)
+
+```ts
+<T>(target: T | false | null | undefined | "" | 0): target is T;
+```
+
+#### nonNullOrUndefined (exported function)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value EXCEPT null and
+undefined.
+
+```ts
+const nonNullOrUndefined: {
+  <T>(target: T | null | undefined): target is T;
+};
+```
+
+##### nonNullOrUndefined(...) (call signature)
+
+```ts
+<T>(target: T | null | undefined): target is T;
+```
+
+#### Error (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any value which looks like an `Error`, according to the following criteria:
+
+- Is an object
+- Has a `name` property which is a string
+- Has a `message` property which is a string
+- Has a `stack` property which is a string
+
+```ts
+const Error: TypeValidator<Error>;
+```
+
+#### Symbol (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any symbol value.
+
+```ts
+const Symbol: TypeValidator<symbol>;
+```
+
+#### RegExp (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any regular expression (RegExp) instance.
+
+```ts
+const RegExp: TypeValidator<RegExp>;
+```
+
+#### Date (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Date instance.
+
+```ts
+const Date: TypeValidator<Date>;
+```
+
+#### anyMap (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Map instance.
+
+```ts
+const anyMap: TypeValidator<Map<any, any>>;
+```
+
+#### unknownMap (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Map instance.
+
+Synonyms: [map](#), [Map](#)
+
+```ts
+const unknownMap: TypeValidator<Map<unknown, unknown>>;
+```
+
+#### map (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Map instance.
+
+Synonyms: [unknownMap](#), [Map](#)
+
+```ts
+const map: TypeValidator<Map<unknown, unknown>>;
+```
+
+#### Map (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Map instance.
+
+Synonyms: [unknownMap](#), [map](#)
+
+```ts
+const Map: TypeValidator<Map<unknown, unknown>>;
+```
+
+#### anySet (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Set instance.
+
+```ts
+const anySet: TypeValidator<Set<any>>;
+```
+
+#### unknownSet (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Set instance.
+
+Synonyms: [set](#), [Set](#)
+
+```ts
+const unknownSet: TypeValidator<Set<unknown>>;
+```
+
+#### set (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Set instance.
+
+Synonyms: [unknownSet](#), [Set](#)
+
+```ts
+const set: TypeValidator<Set<unknown>>;
+```
+
+#### Set (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Set instance.
+
+Synonyms: [unknownSet](#), [set](#)
+
+```ts
+const Set: TypeValidator<Set<unknown>>;
+```
+
+#### ArrayBuffer (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any ArrayBuffer instance.
+
+```ts
+const ArrayBuffer: TypeValidator<ArrayBuffer>;
+```
+
+#### SharedArrayBuffer (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any SharedArrayBuffer instance.
+
+```ts
+const SharedArrayBuffer: TypeValidator<SharedArrayBuffer>;
+```
+
+#### DataView (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any DataView instance.
+
+```ts
+const DataView: TypeValidator<DataView>;
+```
+
+#### TypedArray (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any typed array instance.
+
+```ts
+const TypedArray: TypeValidator<
+  | Int8Array
+  | Uint8Array
+  | Uint8ClampedArray
+  | Int16Array
+  | Uint16Array
+  | Int32Array
+  | Uint32Array
+  | Float32Array
+  | Float64Array
+>;
+```
+
+#### Int8Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Int8Array instance.
+
+```ts
+const Int8Array: TypeValidator<Int8Array>;
+```
+
+#### Uint8Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Uint8Array instance.
+
+```ts
+const Uint8Array: TypeValidator<Uint8Array>;
+```
+
+#### Uint8ClampedArray (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Uint8ClampedArray instance.
+
+```ts
+const Uint8ClampedArray: TypeValidator<Uint8ClampedArray>;
+```
+
+#### Int16Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Int16Array instance.
+
+```ts
+const Int16Array: TypeValidator<Int16Array>;
+```
+
+#### Uint16Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Uint16Array instance.
+
+```ts
+const Uint16Array: TypeValidator<Uint16Array>;
+```
+
+#### Int32Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Int32Array instance.
+
+```ts
+const Int32Array: TypeValidator<Int32Array>;
+```
+
+#### Uint32Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Uint32Array instance.
+
+```ts
+const Uint32Array: TypeValidator<Uint32Array>;
+```
+
+#### Float32Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Uint32Array instance.
+
+```ts
+const Float32Array: TypeValidator<Float32Array>;
+```
+
+#### Float64Array (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any Float64Array instance.
+
+```ts
+const Float64Array: TypeValidator<Float64Array>;
+```
+
+#### anyTypeValidator (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any function.
+
+```ts
+const anyTypeValidator: TypeValidator<TypeValidator<any>>;
+```
+
+#### unknownTypeValidator (exported value)
+
+[TypeValidator](#typevalidator-exported-type) which returns true for any function.
+
+```ts
+const unknownTypeValidator: TypeValidator<TypeValidator<unknown>>;
+```
