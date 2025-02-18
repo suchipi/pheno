@@ -123,8 +123,113 @@ function something(first: unknown, second: unknown) {
 - `Float32Array`
 - `Float64Array`
 
-Please see the TypeScript types for each of these in either your editor's autocomplete or pheno's source code for more information.
-
 ## License
 
 MIT
+
+## API Documentation
+
+### TypeScript Types
+
+#### TypeValidator (exported type)
+
+A type validator is a function which returns a boolean indicating whether it
+was called with a value assignable to its described type.
+
+`pheno` contains many different type validators, as well as functions which
+create type validators.
+
+```ts
+type TypeValidator<T> = (value: any) => value is T;
+```
+
+#### ExtractTypeFromValidator (exported type)
+
+A utility type which extracts the inner type from a TypeValidator.
+
+For example, `ExtractTypeFromValidator<TypeValidator<string>>` would be `string`.
+
+```ts
+type ExtractTypeFromValidator<Validator extends TypeValidator<any>> =
+  Validator extends TypeValidator<infer R> ? R : never;
+```
+
+### API Functions
+
+#### assertType (exported function)
+
+A function which throws an Error if `target` isn't assignable to `type`.
+
+- `@param` _target_ — The value to check.
+- `@param` _type_ — The [TypeValidator](#typevalidator-exported-type) to check it against.
+- `@param` _messageMaker_ — Optional. A function which to be used when creating an error message, if the value isn't assignable to the type.
+- `@param` _ErrorConstructor_ — Optional. An constructor to be used when creating an error message, if the value isn't assignable to the type. Defaults to `TypeError`.
+
+```ts
+function assertType<T>(
+  target: any,
+  type: TypeValidator<T>,
+  messageMaker?: (target: any, expectedType: TypeValidator<any>) => string,
+  ErrorConstructor?: {
+    new (message?: string): any;
+  },
+): asserts target is T;
+```
+
+#### assertType (exported namespace)
+
+```ts
+namespace assertType {
+  export const defaultMessageMaker: (
+    target: any,
+    expectedType: TypeValidator<any>,
+  ) => string;
+}
+```
+
+##### assertType.defaultMessageMaker (exported function)
+
+The default value used for [assertType](#asserttype-exported-function)'s `messageMaker`
+parameter when no `messageMaker` argument is specified.
+
+```ts
+const defaultMessageMaker: (
+  target: any,
+  expectedType: TypeValidator<any>,
+) => string;
+```
+
+#### isOfType (exported function)
+
+A function which returns a boolean indicating whether `target` is assignable to `type`.
+
+- `@param` _target_ — The value to check.
+- `@param` _type_ — The [TypeValidator](#typevalidator-exported-type) to check it against.
+
+```ts
+function isOfType<T>(target: any, type: TypeValidator<T>): target is T;
+```
+
+#### asType (exported function)
+
+A TypeScript helper function which casts `target` to the type contained within the [TypeValidator](#typevalidator-exported-type) `type`.
+
+This has no runtime effect; `target` is returned without any checks or changes.
+
+- `@param` _target_ — The value to return.
+- `@param` _type_ — The [TypeValidator](#typevalidator-exported-type) whose inner type you would like to cast `target` to.
+
+```ts
+function asType<T>(target: unknown, type?: TypeValidator<T>): T;
+```
+
+#### stringifyValue (exported function)
+
+Simple value-to-string converter, using JSON.stringify with a custom replacer
+and a try-catch around it. Kinda like a lightweight stand-in for an "inspect"
+function. [assertType](#asserttype-exported-function)'s default value for its `messageMaker` parameter
+uses this function.
+
+```ts
+function stringifyValue(value: any): void;
+```

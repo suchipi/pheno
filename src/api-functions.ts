@@ -1,9 +1,10 @@
 import type { TypeValidator } from "./type-validator";
 
 /**
- * Simple value-to-string converter, using JSON.stringify with a custom
- * replacer and a try-catch around it. Kinda like a lightweight stand-in for
- * an "inspect" function. assertType's default messageMaker uses this function.
+ * Simple value-to-string converter, using JSON.stringify with a custom replacer
+ * and a try-catch around it. Kinda like a lightweight stand-in for an "inspect"
+ * function. assertType's default value for its `messageMaker` parameter uses
+ * this function.
  */
 export function stringifyValue(value: any) {
   try {

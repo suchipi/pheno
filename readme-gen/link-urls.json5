@@ -1,0 +1,4 @@
+{
+  TypeValidator: "#typevalidator-exported-type",
+  assertType: "#asserttype-exported-function",
+}

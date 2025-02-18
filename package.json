@@ -27,6 +27,7 @@
   "author": "Lily Skye <me@suchipi.com>",
   "license": "MIT",
   "devDependencies": {
+    "@suchipi/dtsmd": "^1.0.1",
     "chokidar-cli": "^3.0.0",
     "kame": "^0.14.0",
     "prettier": "^3.4.2",
