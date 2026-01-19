@@ -5,10 +5,10 @@ export {
   type Unwrap,
 } from "./coerce";
 
-// The raw "coerce" function
-import coerce from "./coerce";
+// The raw "coerce" function, and the override symbol
+import coerce, { PHENO_COERCE_OVERRIDE } from "./coerce";
 export default coerce;
-export { coerce };
+export { coerce, PHENO_COERCE_OVERRIDE };
 
 export * from "./api-functions";
 import * as $CoercingApiFunctions from "./api-functions";

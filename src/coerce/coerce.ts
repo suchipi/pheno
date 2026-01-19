@@ -1,9 +1,12 @@
 import * as t from "..";
 import { TypeValidator } from "../type-validator";
 
+export const PHENO_COERCE_OVERRIDE = Symbol("PHENO_COERCE_OVERRIDE");
+
 // prettier-ignore
 export type CoerceValue<V extends Coerceable> =
-  V extends StringConstructor ? TypeValidator<string>
+  V extends { [PHENO_COERCE_OVERRIDE]: TypeValidator<infer T> } ? TypeValidator<T>
+  : V extends StringConstructor ? TypeValidator<string>
   : V extends NumberConstructor ? TypeValidator<number>
   : V extends BooleanConstructor ? TypeValidator<boolean>
   : V extends BigIntConstructor ? TypeValidator<BigInt>
@@ -83,6 +86,16 @@ export type Unwrap<V extends Coerceable | TypeValidator<any> | unknown> =
 const coerce: <V extends Coerceable | TypeValidator<any> | unknown>(
   value: V,
 ) => TypeValidator<Unwrap<V>> = (value: any): any => {
+  if (
+    (typeof value === "object" && value !== null) ||
+    typeof value === "function"
+  ) {
+    const maybeOverride = value[PHENO_COERCE_OVERRIDE];
+    if (maybeOverride) {
+      return maybeOverride;
+    }
+  }
+
   if (t.null(value)) {
     return t.null;
   } else if (t.undefined(value)) {

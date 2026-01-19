@@ -3,6 +3,7 @@ import * as _t from "../dist/bundle.min";
 import coerce, {
   $CoercingApiFunctions,
   assertType as coerce_assertType,
+  PHENO_COERCE_OVERRIDE,
 } from "../coerce";
 
 const t: typeof import("..") = _t as any;
@@ -170,4 +171,19 @@ describe("$CoercingApiFunctions", () => {
     expect(asType("hi", t.number)).toBe("hi");
     expect(asType("hi", Number)).toBe("hi");
   });
+});
+
+test("coerce override", () => {
+  let ran = false;
+  class MyClass {
+    static [PHENO_COERCE_OVERRIDE] = (someVal: unknown) => {
+      ran = true;
+      return typeof someVal === "string";
+    };
+  }
+
+  const { isOfType } = $CoercingApiFunctions;
+
+  expect(isOfType("hi", MyClass)).toBe(true);
+  expect(ran).toBe(true);
 });
