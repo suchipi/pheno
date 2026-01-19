@@ -7,7 +7,7 @@ Simple, lightweight at-runtime type checking functions, with full TypeScript sup
 - Full TypeScript integration: TypeScript understands that `assertType` and `isOfType` narrow the types of things, and will refine them accordingly
 - Simple: Type validators are just functions that return booleans.
 - Effective: There's lots of utility functions that help you represent all the various types you'd care about in your code.
-- Lightweight: The whole library is 21K minified (5.0K gzipped, 4.4K brotli-ified).
+- Lightweight: The whole library is 21K minified (5.0K gzipped, 4.4K brotli-ified), but can be even smaller if your bundler supports tree-shaking.
 
 ## Usage Example
 
