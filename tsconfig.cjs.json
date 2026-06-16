@@ -4,6 +4,7 @@
   "compilerOptions": {
     "outDir": "dist/cjs",
 
+    "moduleResolution": "bundler",
     "module": "CommonJS"
   }
 }

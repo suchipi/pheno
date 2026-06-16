@@ -43,11 +43,11 @@
   "license": "MIT",
   "devDependencies": {
     "chokidar-cli": "^3.0.0",
-    "kame": "^0.14.0",
-    "prettier": "^3.4.2",
-    "terser": "^5.37.0",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.2"
+    "kame": "^2.0.0",
+    "prettier": "^3.8.4",
+    "terser": "^5.48.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   },
   "repository": {
     "type": "git",

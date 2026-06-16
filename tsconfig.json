@@ -3,6 +3,8 @@
   "exclude": ["./**/*.test.ts"],
 
   "compilerOptions": {
+    "rootDir": "src",
+
     "lib": ["es2020", "dom"],
     "target": "es2020",
     "declaration": true,
@@ -18,9 +20,7 @@
     "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "downlevelIteration": true,
 
-    "moduleResolution": "node",
     "esModuleInterop": true
   }
 }
