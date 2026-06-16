@@ -1,6 +1,6 @@
 {
   "name": "pheno",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "description": "Simple, lightweight at-runtime type checking functions, with full TypeScript support",
   "main": "./dist/cjs/index.js",
   "types": "dist/esm/index.d.ts",
