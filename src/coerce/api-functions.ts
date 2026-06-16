@@ -1,6 +1,6 @@
-import * as t from "..";
-import { TypeValidator } from "../type-validator";
-import coerce, { type Unwrap, type Coerceable } from "./coerce";
+import * as t from "../index.js";
+import { TypeValidator } from "../type-validator.js";
+import coerce, { type Unwrap, type Coerceable } from "./coerce.js";
 
 export const stringifyValue = t.stringifyValue;
 

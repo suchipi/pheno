@@ -1,13 +1,16 @@
-export * from "./api-functions";
-import * as $ApiFunctions from "./api-functions";
+export * from "./api-functions.js";
+import * as $ApiFunctions from "./api-functions.js";
 export { $ApiFunctions };
 
-export * from "./basic-types";
-import * as $BasicTypes from "./basic-types";
+export * from "./basic-types.js";
+import * as $BasicTypes from "./basic-types.js";
 export { $BasicTypes };
 
-export * from "./type-constructors";
-import * as $TypeConstructors from "./type-constructors";
+export * from "./type-constructors.js";
+import * as $TypeConstructors from "./type-constructors.js";
 export { $TypeConstructors };
 
-export type { TypeValidator, ExtractTypeFromValidator } from "./type-validator";
+export type {
+  TypeValidator,
+  ExtractTypeFromValidator,
+} from "./type-validator.js";

@@ -1,7 +1,7 @@
-import type { TypeValidator } from "./type-validator";
-import * as basicTypes from "./basic-types";
-import { assertType } from "./api-functions";
-import { setName, hasOwn, allEntries } from "./utils";
+import type { TypeValidator } from "./type-validator.js";
+import * as basicTypes from "./basic-types.js";
+import { assertType } from "./api-functions.js";
+import { setName, hasOwn, allEntries } from "./utils.js";
 
 export function objectStr(obj: { [key: string | number | symbol]: string }) {
   return `{ ${allEntries(obj)

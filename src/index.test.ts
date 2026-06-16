@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import * as t from "../dist/bundle.min";
+import * as t from "../dist/bundle.min.js";
 
 test("basic test", () => {
   expect(t.isOfType("hi", t.string)).toBe(true);

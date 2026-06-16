@@ -1,5 +1,5 @@
-import * as t from "..";
-import { TypeValidator } from "../type-validator";
+import * as t from "../index.js";
+import { TypeValidator } from "../type-validator.js";
 
 export const PHENO_COERCE_OVERRIDE = Symbol("PHENO_COERCE_OVERRIDE");
 

@@ -1,5 +1,5 @@
-import type { TypeValidator } from "./type-validator";
-import { setName, isTagged } from "./utils";
+import type { TypeValidator } from "./type-validator.js";
+import { setName, isTagged } from "./utils.js";
 
 export const any: TypeValidator<any> = (_value): _value is any => true;
 setName(any, "any");

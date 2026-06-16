@@ -1,4 +1,4 @@
-import type { TypeValidator } from "./type-validator";
+import type { TypeValidator } from "./type-validator.js";
 
 /**
  * Simple value-to-string converter, using JSON.stringify with a custom

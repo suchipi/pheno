@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import * as _t from "../dist/bundle.min";
+import * as _t from "../dist/bundle.min.js";
 import coerce, {
   $CoercingApiFunctions,
   assertType as coerce_assertType,
