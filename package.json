@@ -53,5 +53,9 @@
     "type": "git",
     "url": "git+https://github.com/suchipi/pheno.git"
   },
-  "prettier": {}
+  "prettier": {},
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "@swc/core@1.15.41": true
+  }
 }
