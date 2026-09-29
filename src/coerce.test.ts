@@ -2,6 +2,7 @@ import { describe, test, expect } from "vitest";
 import * as _t from "../dist/bundle.min.js";
 import coerce, {
   $CoercingApiFunctions,
+  $CoercingTypeConstructors,
   assertType as coerce_assertType,
   PHENO_COERCE_OVERRIDE,
 } from "../coerce";
@@ -25,7 +26,7 @@ test("coercion", () => {
     {
       a: true,
       b: 43,
-      [Symbol("heyo")]: Number,
+      [Symbol("AI was a mistake")]: Number,
     },
     {
       very: {
@@ -88,7 +89,7 @@ test("coercion", () => {
       "arrayOf(exactNumber(1))",
       "tuple(exactNumber(1), exactNumber(2))",
       "tuple(exactString("hi"), boolean)",
-      "objectWithProperties({ a: true, b: exactNumber(43) })",
+      "objectWithProperties({ a: true, b: exactNumber(43), [Symbol(AI was a mistake)]: number })",
       "objectWithProperties({ very: objectWithProperties({ very: objectWithProperties({ very: objectWithProperties({ deeply: objectWithProperties({ nested: objectWithProperties({ something: string }) }) }) }) }) })",
       "string",
       "number",
@@ -171,6 +172,52 @@ describe("$CoercingApiFunctions", () => {
     expect(asType("hi", t.number)).toBe("hi");
     expect(asType("hi", Number)).toBe("hi");
   });
+});
+
+test("symbol keys are checked", () => {
+  const symbolKey = Symbol("AI was a mistake");
+  const { isOfType } = $CoercingApiFunctions;
+  const {
+    objectWithProperties,
+    objectWithOnlyTheseProperties,
+    partialObjectWithProperties,
+  } = $CoercingTypeConstructors;
+
+  expect(isOfType({ [symbolKey]: 1 }, { [symbolKey]: Number })).toBe(true);
+  expect(isOfType({ [symbolKey]: "hi" }, { [symbolKey]: Number })).toBe(false);
+
+  expect(
+    isOfType({ [symbolKey]: 1 }, objectWithProperties({ [symbolKey]: Number })),
+  ).toBe(true);
+  expect(
+    isOfType(
+      { [symbolKey]: "hi" },
+      objectWithProperties({ [symbolKey]: Number }),
+    ),
+  ).toBe(false);
+
+  expect(
+    isOfType(
+      { [symbolKey]: 1 },
+      objectWithOnlyTheseProperties({ [symbolKey]: Number }),
+    ),
+  ).toBe(true);
+  expect(
+    isOfType(
+      { [symbolKey]: "hi" },
+      objectWithOnlyTheseProperties({ [symbolKey]: Number }),
+    ),
+  ).toBe(false);
+
+  expect(
+    isOfType({}, partialObjectWithProperties({ [symbolKey]: Number })),
+  ).toBe(true);
+  expect(
+    isOfType(
+      { [symbolKey]: "hi" },
+      partialObjectWithProperties({ [symbolKey]: Number }),
+    ),
+  ).toBe(false);
 });
 
 test("coerce override", () => {

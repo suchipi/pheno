@@ -1,5 +1,6 @@
 import * as t from "../index.js";
 import { TypeValidator } from "../type-validator.js";
+import { allEntries } from "../utils.js";
 
 export const PHENO_COERCE_OVERRIDE = Symbol("PHENO_COERCE_OVERRIDE");
 
@@ -135,7 +136,7 @@ const coerce: <V extends Coerceable | TypeValidator<any> | unknown>(
   } else if (t.object(value)) {
     return t.objectWithProperties(
       Object.fromEntries(
-        Object.entries(value).map(([key, value]) => {
+        allEntries(value).map(([key, value]) => {
           return [key, coerce(value)];
         }),
       ),
@@ -267,13 +268,13 @@ const _coercingTypeConstructors: {
   objectWithProperties: (properties) =>
     t.objectWithProperties(
       Object.fromEntries(
-        Object.entries(properties).map(([k, v]) => [k, coerce(v)]),
+        allEntries(properties).map(([k, v]) => [k, coerce(v)]),
       ),
     ) as any,
   objectWithOnlyTheseProperties: (properties) =>
     t.objectWithOnlyTheseProperties(
       Object.fromEntries(
-        Object.entries(properties).map(([k, v]) => [k, coerce(v)]),
+        allEntries(properties).map(([k, v]) => [k, coerce(v)]),
       ),
     ) as any,
   mappingObjectOf: (k, v) => t.mappingObjectOf(coerce(k), coerce(v)),
@@ -281,7 +282,7 @@ const _coercingTypeConstructors: {
   partialObjectWithProperties: (properties) =>
     t.partialObjectWithProperties(
       Object.fromEntries(
-        Object.entries(properties).map(([k, v]) => [k, coerce(v)]),
+        allEntries(properties).map(([k, v]) => [k, coerce(v)]),
       ),
     ) as any,
   tuple: (...args) =>
