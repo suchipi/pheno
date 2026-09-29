@@ -1,5 +1,6 @@
 import { test, expect } from "vitest";
-import * as t from "../dist/bundle.min.js";
+
+const t: typeof import(".") = (await import("../dist/bundle.min.js")) as any;
 
 test("basic test", () => {
   expect(t.isOfType("hi", t.string)).toBe(true);
@@ -848,18 +849,21 @@ test("exported categories", () => {
   expect(t.$ApiFunctions).not.toBeUndefined();
 
   for (const key in t.$ApiFunctions) {
+    // @ts-ignore property access on namespace
     expect(t[key]).not.toBeUndefined();
   }
 
   expect(t.$BasicTypes).not.toBeUndefined();
 
   for (const key in t.$BasicTypes) {
+    // @ts-ignore property access on namespace
     expect(t[key]).not.toBeUndefined();
   }
 
   expect(t.$TypeConstructors).not.toBeUndefined();
 
   for (const key in t.$TypeConstructors) {
+    // @ts-ignore property access on namespace
     expect(t[key]).not.toBeUndefined();
   }
 });
@@ -877,6 +881,7 @@ test("default message maker", () => {
 test("default message maker with incorrect type validator", () => {
   const message = t.assertType.defaultMessageMaker(
     { something: new Set([1, new Map([[{}, { five: 5 }]]), 3]) },
+    // @ts-expect-error
     { potato: null },
   );
   expect(message).toMatchInlineSnapshot(
@@ -889,7 +894,7 @@ test("custom error constructor", () => {
 
   try {
     t.assertType({}, t.string, t.assertType.defaultMessageMaker, MyError);
-  } catch (err) {
+  } catch (err: any) {
     expect(err).toBeInstanceOf(MyError);
     expect(err.message).toMatchInlineSnapshot(
       '"Expected value of type string, but received {}"',
@@ -899,78 +904,91 @@ test("custom error constructor", () => {
 
 test("type constructors throw errors when passed invalid args", () => {
   expect(() => {
+    // @ts-expect-error
     t.arrayOf(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.exactString(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type string, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.exactNumber({});
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type numberIncludingNanAndInfinities, but received {}]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.exactBigInt(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type bigint, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.exactSymbol(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type Symbol, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.hasClassName(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type string, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.hasToStringTag(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type string, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.intersection(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.and(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.union(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.or(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [5,6]]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.instanceOf(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.instanceOf({});
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type union(anyFunction, objectWithProperties({ [Symbol(Symbol.hasInstance)]: anyFunction })), but received {}]`,
@@ -981,70 +999,82 @@ test("type constructors throw errors when passed invalid args", () => {
       [Symbol.hasInstance]: () => false,
     };
 
+    // @ts-ignore
     t.instanceOf(objectThatCanHaveInstance);
-  }).not.toThrowError();
+  }).not.toThrow();
 
   expect(() => {
+    // @ts-expect-error
     t.mapOf(5, 6);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.setOf(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.maybe(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyTypeValidator, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.objectWithProperties(5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyObject, but received 5]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.objectWithProperties(null);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyObject, but received null]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.objectWithOnlyTheseProperties(null);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyObject, but received null]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.mappingObjectOf(null, 5);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyTypeValidator, but received null]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.partialObjectWithProperties(17);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type anyObject, but received 17]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.stringMatching(435);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type RegExp, but received 435]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.symbolFor(435);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type string, but received 435]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.tuple(1, 2, {});
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: Expected value of type arrayOf(anyTypeValidator), but received [1,2,{}]]`,
@@ -1053,12 +1083,14 @@ test("type constructors throw errors when passed invalid args", () => {
 
 test("api functions throw errors when passed invalid type validators", () => {
   expect(() => {
+    // @ts-expect-error
     t.assertType(null, null);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: 'type' argument passed into 'assertType' was the wrong type. It should be a function, but it was: null]`,
   );
 
   expect(() => {
+    // @ts-expect-error
     t.isOfType(null, null);
   }).toThrowErrorMatchingInlineSnapshot(
     `[TypeError: 'type' argument passed into 'isOfType' was the wrong type. It should be a function, but it was: null]`,
